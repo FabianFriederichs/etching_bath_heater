@@ -1065,7 +1065,7 @@ Disassembly of section .text:
      afc:	0e 94 1e 17 	call	0x2e3c	; 0x2e3c <__subsf3>
      b00:	20 e0       	ldi	r18, 0x00	; 0
      b02:	30 e0       	ldi	r19, 0x00	; 0
-     b04:	40 e0       	ldi	r20, 0x00	; 0
+     b04:	40 e4       	ldi	r20, 0x40	; 64
      b06:	50 e4       	ldi	r21, 0x40	; 64
      b08:	0e 94 8b 17 	call	0x2f16	; 0x2f16 <__cmpsf2>
      b0c:	87 ff       	sbrs	r24, 7
@@ -1083,7 +1083,7 @@ Disassembly of section .text:
      b38:	0e 94 d7 09 	call	0x13ae	; 0x13ae <appt_cycles_to_seconds>
      b3c:	20 e0       	ldi	r18, 0x00	; 0
      b3e:	30 e0       	ldi	r19, 0x00	; 0
-     b40:	44 e3       	ldi	r20, 0x34	; 52
+     b40:	46 e9       	ldi	r20, 0x96	; 150
      b42:	53 e4       	ldi	r21, 0x43	; 67
      b44:	0e 94 74 19 	call	0x32e8	; 0x32e8 <__gesf2>
      b48:	18 16       	cp	r1, r24
@@ -1101,7 +1101,7 @@ Disassembly of section .text:
      b70:	0e 94 1e 17 	call	0x2e3c	; 0x2e3c <__subsf3>
      b74:	20 e0       	ldi	r18, 0x00	; 0
      b76:	30 e0       	ldi	r19, 0x00	; 0
-     b78:	40 e0       	ldi	r20, 0x00	; 0
+     b78:	40 e4       	ldi	r20, 0x40	; 64
      b7a:	50 e4       	ldi	r21, 0x40	; 64
      b7c:	0e 94 74 19 	call	0x32e8	; 0x32e8 <__gesf2>
      b80:	87 fd       	sbrc	r24, 7
@@ -1119,7 +1119,7 @@ Disassembly of section .text:
      bac:	0e 94 d7 09 	call	0x13ae	; 0x13ae <appt_cycles_to_seconds>
      bb0:	20 e0       	ldi	r18, 0x00	; 0
      bb2:	30 e0       	ldi	r19, 0x00	; 0
-     bb4:	44 e3       	ldi	r20, 0x34	; 52
+     bb4:	46 e9       	ldi	r20, 0x96	; 150
      bb6:	53 e4       	ldi	r21, 0x43	; 67
      bb8:	0e 94 8b 17 	call	0x2f16	; 0x2f16 <__cmpsf2>
      bbc:	18 16       	cp	r1, r24
@@ -1175,8 +1175,8 @@ Disassembly of section .text:
      c66:	b0 90 62 01 	lds	r11, 0x0162	; 0x800162 <app_state+0x43>
      c6a:	20 e0       	ldi	r18, 0x00	; 0
      c6c:	30 e0       	ldi	r19, 0x00	; 0
-     c6e:	48 ec       	ldi	r20, 0xC8	; 200
-     c70:	52 e4       	ldi	r21, 0x42	; 66
+     c6e:	42 e0       	ldi	r20, 0x02	; 2
+     c70:	53 e4       	ldi	r21, 0x43	; 67
      c72:	c5 01       	movw	r24, r10
      c74:	b4 01       	movw	r22, r8
      c76:	0e 94 74 19 	call	0x32e8	; 0x32e8 <__gesf2>
