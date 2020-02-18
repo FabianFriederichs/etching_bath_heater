@@ -141,6 +141,9 @@ void mr_heater_menu_pid(uint8_t item_index)
 		case 3: // "D"
 			srd_set(0, SRD_CD);
 			break;
+		case 4: // "I-CLP"
+			srd_set(0, SRD_CI); srd_set(1, SRD_MINUS); srd_set(2, SRD_CC); srd_set(3, SRD_CL); srd_set(4, SRD_CP);
+			break;
 	}
 }
 
@@ -178,6 +181,12 @@ void mr_heater_menu_pid_d(float pid_d)
 {
 	srd_set(0, SRD_CD);
 	srd_setfloat(pid_d, 1, 2, 5);
+}
+
+void mr_heater_menu_pid_i_clamp(float pid_i_clamp)
+{
+	srd_set(0, SRD_CI | SRD_DOT); srd_set(1, SRD_CC | SRD_DOT);
+	srd_setfloat(pid_i_clamp, 2, 2, 4);
 }
 
 void mr_heater_menu_offset(float offset)

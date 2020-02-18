@@ -45,7 +45,7 @@ ErrorCode app_run()
 	heater_off();
 	
 	// initialize pid controller
-	pid_init(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
+	pid_init(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, app_state.settings.heater_pid_i_clamp, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
 	
 	// initialize sensors
 	tsens_init();
@@ -652,9 +652,9 @@ ErrorCode app_state_menu_heater_controlling_tprobe()
 ErrorCode app_state_menu_heater_pid()
 {
 	if(app_state.current_input.rotenc_delta > 0)
-		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index + 1, 3), 0);
+		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index + 1, 4), 0);
 	else if(app_state.current_input.rotenc_delta < 0)
-		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index - 1, 3), 0);
+		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index - 1, 4), 0);
 	// display selected menu item
 	srd_clear();
 	mr_heater_menu_pid(app_state.selected_menu_item_index);
@@ -681,6 +681,10 @@ ErrorCode app_state_menu_heater_pid()
 				app_state.selected_menu_item_index = 0;
 				app_state.current_state_func = app_state_menu_heater_pid_d;
 				break;
+			case 4:	// I-CLAMP
+				app_state.selected_menu_item_index = 0;
+				app_state.current_state_func = app_state_menu_heater_pid_i_clamp;
+				break;
 		}
 	}
 	return EC_SUCCESS;
@@ -691,7 +695,7 @@ ErrorCode app_state_menu_heater_pid_p()
 	if(app_state.current_input.rotenc_delta != 0)
 	{
 		app_state.settings.heater_pid_p = fmax(fmin(app_state.settings.heater_pid_p + app_state.current_input.rotenc_delta * PID_CHANGE_PER_ROTENC_STEP, MAX_HEATER_PID_P), MIN_HEATER_PID_P);
-		pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
+		pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, app_state.settings.heater_pid_i_clamp, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
 	}
 	
 	// display current value
@@ -712,7 +716,7 @@ ErrorCode app_state_menu_heater_pid_i()
 	if(app_state.current_input.rotenc_delta != 0)
 	{
 		app_state.settings.heater_pid_i = fmax(fmin(app_state.settings.heater_pid_i + app_state.current_input.rotenc_delta * PID_CHANGE_PER_ROTENC_STEP, MAX_HEATER_PID_I), MIN_HEATER_PID_I);
-		pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
+		pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, app_state.settings.heater_pid_i_clamp, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
 	}
 	
 	// display current value
@@ -733,7 +737,7 @@ ErrorCode app_state_menu_heater_pid_d()
 	if(app_state.current_input.rotenc_delta != 0)
 	{
 		app_state.settings.heater_pid_d = fmax(fmin(app_state.settings.heater_pid_d + app_state.current_input.rotenc_delta * PID_CHANGE_PER_ROTENC_STEP, MAX_HEATER_PID_D), MIN_HEATER_PID_D);
-		pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
+		pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, app_state.settings.heater_pid_i_clamp, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
 	}
 	
 	// display current value
@@ -744,6 +748,27 @@ ErrorCode app_state_menu_heater_pid_d()
 	if(app_state.current_input.button_presses & (1 << BUTTON0))
 	{
 		app_state.selected_menu_item_index = 3;
+		app_state.current_state_func = app_state_menu_heater_pid;
+	}
+	return EC_SUCCESS;
+}
+
+ErrorCode app_state_menu_heater_pid_i_clamp()
+{
+	if(app_state.current_input.rotenc_delta != 0)
+	{
+		app_state.settings.heater_pid_i_clamp = fmax(fmin(app_state.settings.heater_pid_i_clamp + app_state.current_input.rotenc_delta * PID_CHANGE_PER_ROTENC_STEP, MAX_HEATER_PID_I_CLAMP), MIN_HEATER_PID_I_CLAMP);
+		pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, app_state.settings.heater_pid_i_clamp, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
+	}
+	
+	// display current value
+	srd_clear();
+	mr_heater_menu_pid_i_clamp(app_state.settings.heater_pid_i_clamp);
+	srd_display();
+	
+	if(app_state.current_input.button_presses & (1 << BUTTON0))
+	{
+		app_state.selected_menu_item_index = 4;
 		app_state.current_state_func = app_state_menu_heater_pid;
 	}
 	return EC_SUCCESS;
@@ -1007,8 +1032,9 @@ void app_load_default_settings()
 	app_state.settings.heater_pid_p = SETTINGS_DEFAULT_HEATER_PID_P;
 	app_state.settings.heater_pid_i = SETTINGS_DEFAULT_HEATER_PID_I;
 	app_state.settings.heater_pid_d = SETTINGS_DEFAULT_HEATER_PID_D;
+	app_state.settings.heater_pid_i_clamp = SETTINGS_DEFAULT_HEATER_PID_I_CLAMP;
 	app_state.settings.heater_offset = SETTINGS_DEFAULT_HEATER_OFFSET;
-	app_state.settings.controlling_tprobe = HEATER_SAFETY_TPROBE;
+	app_state.settings.controlling_tprobe = SETTINGS_DEFAULT_CONTROLLING_TPROBE;
 }
 
 void app_load_settings_from_eeprom()

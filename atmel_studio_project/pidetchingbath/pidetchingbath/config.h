@@ -38,6 +38,9 @@
 #define MAX_HEATER_PID_I 1000.0
 #define MIN_HEATER_PID_D 0.0
 #define MAX_HEATER_PID_D 1000.0
+// static clamping on top of dynamic c. Wen don't need I for speed in this application
+#define MAX_HEATER_PID_I_CLAMP 1.0
+#define MIN_HEATER_PID_I_CLAMP 0.0
 
 #define MIN_HEATER_OFFSET -50.0
 #define MAX_HEATER_OFFSET 50.0
@@ -70,7 +73,7 @@
 #define HEATER_CONTROL_MIN 0 // maximum duty cycle
 #define HEATER_CONTROL_MAX 100 // minimum duty cycle
 
-#define HEATER_MAX_OPERATING_TEMP 130.0 // max 100% duty cycle operating temp of heater mat
+#define HEATER_MAX_OPERATING_TEMP 120.0 // max 100% duty cycle operating temp of heater mat
 	
 // heater thermal protection stuff
 #define HEATER_SAFETY_TPROBE 0 // heater-attached safety probe index {0, 1, 2, 3}. Selected probe must be present and configured. Used to limit temperature of the heating element itself.
@@ -161,6 +164,8 @@
 #define SETTINGS_DEFAULT_HEATER_PID_I 0.0
 #define SETTINGS_DEFAULT_HEATER_PID_D 0.0
 #define SETTINGS_DEFAULT_HEATER_OFFSET 0.0
+#define SETTINGS_DEFAULT_HEATER_PID_I_CLAMP 0.25
+#define SETTINGS_DEFAULT_CONTROLLING_TPROBE HEATER_SAFETY_TPROBE
 
 //////////////////////////////////////////////////////// HELPER STUFF //////////////////////////////////////////////////////
 // num thermistors
