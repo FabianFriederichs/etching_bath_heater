@@ -50,11 +50,11 @@ void mr_main_menu(uint8_t item_index)
 		case 3: // "T.CALIB"
 			srd_set(0, SRD_CT | SRD_DOT); srd_set(1, SRD_CC); srd_set(2, SRD_CA); srd_set(3, SRD_CL); srd_set(4, SRD_CI); srd_set(5, SRD_CB);
 			break;
-		case 4: // "STORE.S."
-			srd_set(0, SRD_CS); srd_set(1, SRD_CT); srd_set(2, SRD_CO); srd_set(3, SRD_CR); srd_set(4, SRD_CE | SRD_DOT); srd_set(5, SRD_CS | SRD_DOT);
-			break;
-		case 5: // "LOAD.S."
+		case 4: // "LOAD.S."
 			srd_set(0, SRD_CL); srd_set(1, SRD_CO); srd_set(2, SRD_CA); srd_set(3, SRD_CD | SRD_DOT); srd_set(4, SRD_CS | SRD_DOT);
+			break;
+		case 5: // "STORE.S."
+			srd_set(0, SRD_CS); srd_set(1, SRD_CT); srd_set(2, SRD_CO); srd_set(3, SRD_CR); srd_set(4, SRD_CE | SRD_DOT); srd_set(5, SRD_CS | SRD_DOT);
 			break;
 	}
 }

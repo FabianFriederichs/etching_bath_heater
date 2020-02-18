@@ -2204,7 +2204,7 @@ Disassembly of section .text:
     1586:	20 f1       	brcs	.+72     	; 0x15d0 <mr_main_menu+0x5e>
     1588:	85 30       	cpi	r24, 0x05	; 5
     158a:	09 f4       	brne	.+2      	; 0x158e <mr_main_menu+0x1c>
-    158c:	4e c0       	rjmp	.+156    	; 0x162a <mr_main_menu+0xb8>
+    158c:	4a c0       	rjmp	.+148    	; 0x1622 <mr_main_menu+0xb0>
     158e:	08 95       	ret
     1590:	60 e4       	ldi	r22, 0x40	; 64
     1592:	80 e0       	ldi	r24, 0x00	; 0
@@ -2248,39 +2248,39 @@ Disassembly of section .text:
     15f2:	84 e0       	ldi	r24, 0x04	; 4
     15f4:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
     15f8:	6c e7       	ldi	r22, 0x7C	; 124
-    15fa:	15 c0       	rjmp	.+42     	; 0x1626 <mr_main_menu+0xb4>
-    15fc:	6d e6       	ldi	r22, 0x6D	; 109
+    15fa:	28 c0       	rjmp	.+80     	; 0x164c <mr_main_menu+0xda>
+    15fc:	68 e3       	ldi	r22, 0x38	; 56
     15fe:	80 e0       	ldi	r24, 0x00	; 0
     1600:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
-    1604:	68 e7       	ldi	r22, 0x78	; 120
+    1604:	6c e5       	ldi	r22, 0x5C	; 92
     1606:	81 e0       	ldi	r24, 0x01	; 1
     1608:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
-    160c:	6c e5       	ldi	r22, 0x5C	; 92
+    160c:	67 e7       	ldi	r22, 0x77	; 119
     160e:	82 e0       	ldi	r24, 0x02	; 2
     1610:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
-    1614:	60 e5       	ldi	r22, 0x50	; 80
+    1614:	6e ed       	ldi	r22, 0xDE	; 222
     1616:	83 e0       	ldi	r24, 0x03	; 3
     1618:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
-    161c:	69 ef       	ldi	r22, 0xF9	; 249
+    161c:	6d ee       	ldi	r22, 0xED	; 237
     161e:	84 e0       	ldi	r24, 0x04	; 4
-    1620:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
-    1624:	6d ee       	ldi	r22, 0xED	; 237
-    1626:	85 e0       	ldi	r24, 0x05	; 5
-    1628:	12 c0       	rjmp	.+36     	; 0x164e <mr_main_menu+0xdc>
-    162a:	68 e3       	ldi	r22, 0x38	; 56
-    162c:	80 e0       	ldi	r24, 0x00	; 0
+    1620:	16 c0       	rjmp	.+44     	; 0x164e <mr_main_menu+0xdc>
+    1622:	6d e6       	ldi	r22, 0x6D	; 109
+    1624:	80 e0       	ldi	r24, 0x00	; 0
+    1626:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
+    162a:	68 e7       	ldi	r22, 0x78	; 120
+    162c:	81 e0       	ldi	r24, 0x01	; 1
     162e:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
     1632:	6c e5       	ldi	r22, 0x5C	; 92
-    1634:	81 e0       	ldi	r24, 0x01	; 1
+    1634:	82 e0       	ldi	r24, 0x02	; 2
     1636:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
-    163a:	67 e7       	ldi	r22, 0x77	; 119
-    163c:	82 e0       	ldi	r24, 0x02	; 2
+    163a:	60 e5       	ldi	r22, 0x50	; 80
+    163c:	83 e0       	ldi	r24, 0x03	; 3
     163e:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
-    1642:	6e ed       	ldi	r22, 0xDE	; 222
-    1644:	83 e0       	ldi	r24, 0x03	; 3
+    1642:	69 ef       	ldi	r22, 0xF9	; 249
+    1644:	84 e0       	ldi	r24, 0x04	; 4
     1646:	0e 94 32 10 	call	0x2064	; 0x2064 <srd_set>
     164a:	6d ee       	ldi	r22, 0xED	; 237
-    164c:	84 e0       	ldi	r24, 0x04	; 4
+    164c:	85 e0       	ldi	r24, 0x05	; 5
     164e:	0c 94 32 10 	jmp	0x2064	; 0x2064 <srd_set>
 
 00001652 <mr_heater_menu>:
