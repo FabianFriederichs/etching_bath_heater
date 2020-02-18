@@ -233,22 +233,29 @@ void mr_tprobe_calib_menu_nc()
 
 void mr_thermistor_error(ErrorCode error)
 {
-	srd_set(0, SRD_CT); srd_set(1, SRD_CH | SRD_DOT);
+	
 	switch(error)
 	{
 		case EC_THERMISTOR_SHORT_CIRCUIT:
-			srd_set(2, SRD_CS); srd_set(3, SRD_CH); srd_set(4, SRD_CR); srd_set(5, SRD_CT);
+			srd_set(0, SRD_CT); srd_set(1, SRD_CH | SRD_DOT); srd_set(2, SRD_CS); srd_set(3, SRD_CH); srd_set(4, SRD_CR); srd_set(5, SRD_CT);
 			break;
 		case EC_THERMISTOR_OPEN_CIRCUIT:
-			srd_set(2, SRD_CO); srd_set(3, SRD_CP); srd_set(4, SRD_CE); srd_set(5, SRD_CN);
+			srd_set(0, SRD_CT); srd_set(1, SRD_CH | SRD_DOT); srd_set(2, SRD_CO); srd_set(3, SRD_CP); srd_set(4, SRD_CE); srd_set(5, SRD_CN);
 			break;
 		case EC_THERMISTOR_NOT_RESPONDING:
-			srd_set(2, SRD_CN); srd_set(3, SRD_CR); srd_set(4, SRD_CE); srd_set(5, SRD_CS);
+			srd_set(0, SRD_CT); srd_set(1, SRD_CH | SRD_DOT); srd_set(2, SRD_CN); srd_set(3, SRD_CR); srd_set(4, SRD_CE); srd_set(5, SRD_CS);
 			break;
 		case EC_NO_CONTROLLING_TPROBE:
-			srd_set(2, SRD_CN); srd_set(3, SRD_CO); srd_set(4, SRD_CP); srd_set(5, SRD_CE);
+			srd_set(0, SRD_CT); srd_set(1, SRD_CH | SRD_DOT); srd_set(2, SRD_CN); srd_set(3, SRD_CO); srd_set(4, SRD_CP); srd_set(5, SRD_CE);
+			break;
+		case EC_THERMISTOR_MIN_TEMP:
+			srd_set(0, SRD_CT); srd_set(1, SRD_CH | SRD_DOT); srd_set(2, SRD_CL); srd_set(3, SRD_CT); srd_set(4, SRD_CP);
+			break;
+		case EC_THERMISTOR_MAX_TEMP:
+			srd_set(0, SRD_CT); srd_set(1, SRD_CH | SRD_DOT); srd_set(2, SRD_CH); srd_set(3, SRD_CT); srd_set(4, SRD_CP);
 			break;
 		default:
+			srd_set(0, SRD_CE); srd_set(1, SRD_CR); srd_set(2, SRD_CR); srd_set(3, SRD_CO); srd_set(4, SRD_CR);
 			break;
 	}
 }

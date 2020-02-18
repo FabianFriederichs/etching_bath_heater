@@ -94,28 +94,42 @@ typedef struct {
 	// state machine
 	state_function current_state_func;
 	int8_t selected_menu_item_index;
+	ErrorCode current_error;
 	
 	// controller state
-	pid_state_t pid_state;
-	ErrorCode current_error;
+	pid_state_t pid_state;	
 	uint8_t stirrer_duty_cycle;
+	uint8_t heater_rapid_heating;
 	uint8_t heater_onoff;
 	uint8_t stirrer_onoff;
+	
+	// sensor state
 	#ifdef TSENS_PROBE_0
-	float t0_current_temp;
-	float t0_resistance;
+	float t0_current_temp;					// value of last t0 temp measurement
+	float t0_resistance;					// value of last t0 resistance meaturement
+	float t0_tr_check_start_temp;			// thermal runaway check start temperature
+	appt_cycle_t t0_tr_check_start_time;	// thermal runaway check start time
 	#endif
+	
 	#ifdef TSENS_PROBE_1
-	float t1_current_temp;
-	float t1_resistance;
+	float t1_current_temp;					// value of last t1 temp measurement
+	float t1_resistance;					// value of last t1 resistance meaturement
+	float t1_tr_check_start_temp;			// thermal runaway check start temperature
+	appt_cycle_t t1_tr_check_start_time;	// thermal runaway check start time
 	#endif
+	
 	#ifdef TSENS_PROBE_2
-	float t2_current_temp;
-	float t2_resistance;
+	float t2_current_temp;					// value of last t2 temp measurement
+	float t2_resistance;					// value of last t2 resistance meaturement
+	float t2_tr_check_start_temp;			// thermal runaway check start temperature
+	appt_cycle_t t2_tr_check_start_time;	// thermal runaway check start time
 	#endif
+	
 	#ifdef TSENS_PROBE_3
-	float t3_current_temp;
-	float t3_resistance;
+	float t3_current_temp;					// value of last t3 temp measurement
+	float t3_resistance;					// value of last t3 resistance meaturement
+	float t3_tr_check_start_temp;			// thermal runaway check start temperature
+	appt_cycle_t t3_tr_check_start_time;	// thermal runaway check start time
 	#endif
 } app_state_t;
 

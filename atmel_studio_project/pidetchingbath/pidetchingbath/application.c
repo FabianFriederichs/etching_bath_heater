@@ -35,6 +35,7 @@ ErrorCode app_run()
 	app_state.stirrer_duty_cycle = 0;
 	app_state.heater_onoff = FALSE;
 	app_state.stirrer_onoff = FALSE;
+	app_state.heater_rapid_heating = FALSE;
 	
 	
 	// initialize control
@@ -158,64 +159,160 @@ ErrorCode app_control()
 	// do measurements
 	// if calibration menu is active, update corresponding resistance value
 	#ifdef TSENS_PROBE_0
-	app_state.t0_current_temp = tsens_measure_probe0_temp(&app_state.current_error);
-	if(app_state.current_error)
-	{
-		return app_state.current_error;
-	}
-	if(app_state.current_state_func == app_state_menu_tprobe0_calib)
-	{
-		app_state.t0_resistance = tsens_measure0_resistance(&app_state.current_error);
+		// measure temperature and resistance, with open and short circuit protection
+		app_state.t0_current_temp = tsens_measure_probe0_temp(&app_state.current_error);
 		if(app_state.current_error)
 		{
 			return app_state.current_error;
 		}
-	}
+		if(app_state.current_state_func == app_state_menu_tprobe0_calib)
+		{
+			app_state.t0_resistance = tsens_measure0_resistance(&app_state.current_error);
+			if(app_state.current_error)
+			{
+				return app_state.current_error;
+			}
+		}
+		// min, max temp protection
+		if(app_state.t0_current_temp < HEATER_TR_PROTECTION_MIN_TEMP)
+			return EC_THERMISTOR_MIN_TEMP;
+		else if(app_state.t0_current_temp > HEATER_TR_PROTECTION_MAX_TEMP)
+			return EC_THERMISTOR_MAX_TEMP;
+		
+		// unresponsive thermistor protection
+		if(app_state.settings.controlling_tprobe == 0 || HEATER_SAFETY_TPROBE == 0)
+		{
+			if(app_state.heater_rapid_heating
+				&& (app_state.t0_current_temp - app_state.t0_tr_check_start_temp) < HEATER_PROBE0_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t0_tr_check_start_time) > HEATER_PROBE0_TR_PROTECTION_INTERVAL) // if temp change under full power not reached within interval
+			{
+				return EC_THERMISTOR_NOT_RESPONDING;
+			}
+			else if(app_state.heater_rapid_heating
+				&& (app_state.t0_current_temp - app_state.t0_tr_check_start_temp) >= HEATER_PROBE0_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t0_tr_check_start_time) <= HEATER_PROBE0_TR_PROTECTION_INTERVAL)// reset start temp and time for next cycle
+			{
+				app_state.t0_tr_check_start_temp = app_state.t0_current_temp;
+				app_state.t0_tr_check_start_time = appt_get_cycles_since_startup();
+			}
+		}
 	#endif
+	
 	#ifdef TSENS_PROBE_1
-	app_state.t1_current_temp = tsens_measure_probe1_temp(&app_state.current_error);
-	if(app_state.current_error)
-	{
-		return app_state.current_error;
-	}
-	if(app_state.current_state_func == app_state_menu_tprobe1_calib)
-	{
-		app_state.t1_resistance = tsens_measure1_resistance(&app_state.current_error);
+		app_state.t1_current_temp = tsens_measure_probe1_temp(&app_state.current_error);
 		if(app_state.current_error)
 		{
 			return app_state.current_error;
 		}
-	}
+		if(app_state.current_state_func == app_state_menu_tprobe1_calib)
+		{
+			app_state.t1_resistance = tsens_measure1_resistance(&app_state.current_error);
+			if(app_state.current_error)
+			{
+				return app_state.current_error;
+			}
+		}
+		// min, max temp protection
+		if(app_state.t1_current_temp < HEATER_TR_PROTECTION_MIN_TEMP)
+			return EC_THERMISTOR_MIN_TEMP;
+		else if(app_state.t1_current_temp > HEATER_TR_PROTECTION_MAX_TEMP)
+			return EC_THERMISTOR_MAX_TEMP;
+		
+		// unresponsive thermistor protection
+		if(app_state.settings.controlling_tprobe == 1 || HEATER_SAFETY_TPROBE == 1)
+		{
+			if(app_state.heater_rapid_heating
+				&& (app_state.t1_current_temp - app_state.t1_tr_check_start_temp) < HEATER_PROBE1_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t1_tr_check_start_time) > HEATER_PROBE1_TR_PROTECTION_INTERVAL) // if temp change under full power not reached within interval
+			{
+				return EC_THERMISTOR_NOT_RESPONDING;
+			}
+			else if(app_state.heater_rapid_heating
+				&& (app_state.t1_current_temp - app_state.t1_tr_check_start_temp) >= HEATER_PROBE1_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t1_tr_check_start_time) <= HEATER_PROBE1_TR_PROTECTION_INTERVAL)// reset start temp and time for next cycle
+			{
+				app_state.t1_tr_check_start_temp = app_state.t1_current_temp;
+				app_state.t1_tr_check_start_time = appt_get_cycles_since_startup();
+			}
+		}
 	#endif
+	
 	#ifdef TSENS_PROBE_2
-	app_state.t2_current_temp = tsens_measure_probe2_temp(&app_state.current_error);
-	if(app_state.current_error)
-	{
-		return app_state.current_error;
-	}
-	if(app_state.current_state_func == app_state_menu_tprobe2_calib)
-	{
-		app_state.t2_resistance = tsens_measure2_resistance(&app_state.current_error);
+		app_state.t2_current_temp = tsens_measure_probe2_temp(&app_state.current_error);
 		if(app_state.current_error)
 		{
 			return app_state.current_error;
 		}
-	}
+		if(app_state.current_state_func == app_state_menu_tprobe2_calib)
+		{
+			app_state.t2_resistance = tsens_measure2_resistance(&app_state.current_error);
+			if(app_state.current_error)
+			{
+				return app_state.current_error;
+			}
+		}
+		// min, max temp protection
+		if(app_state.t2_current_temp < HEATER_TR_PROTECTION_MIN_TEMP)
+			return EC_THERMISTOR_MIN_TEMP;
+		else if(app_state.t2_current_temp > HEATER_TR_PROTECTION_MAX_TEMP)
+			return EC_THERMISTOR_MAX_TEMP;
+		
+		// unresponsive thermistor protection
+		if(app_state.settings.controlling_tprobe == 2 || HEATER_SAFETY_TPROBE == 2)
+		{
+			if(app_state.heater_rapid_heating
+				&& (app_state.t2_current_temp - app_state.t2_tr_check_start_temp) < HEATER_PROBE2_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t2_tr_check_start_time) > HEATER_PROBE2_TR_PROTECTION_INTERVAL) // if temp change under full power not reached within interval
+			{
+				return EC_THERMISTOR_NOT_RESPONDING;
+			}
+			else if(app_state.heater_rapid_heating
+				&& (app_state.t2_current_temp - app_state.t2_tr_check_start_temp) >= HEATER_PROBE2_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t2_tr_check_start_time) <= HEATER_PROBE2_TR_PROTECTION_INTERVAL)// reset start temp and time for next cycle
+			{
+				app_state.t2_tr_check_start_temp = app_state.t2_current_temp;
+				app_state.t2_tr_check_start_time = appt_get_cycles_since_startup();
+			}
+		}
 	#endif
+	
 	#ifdef TSENS_PROBE_3
-	app_state.t3_current_temp = tsens_measure_probe3_temp(&app_state.current_error);
-	if(app_state.current_error)
-	{
-		return app_state.current_error;
-	}
-	if(app_state.current_state_func == app_state_menu_tprobe3_calib)
-	{
-		app_state.t3_resistance = tsens_measure3_resistance(&app_state.current_error);
+		app_state.t3_current_temp = tsens_measure_probe3_temp(&app_state.current_error);
 		if(app_state.current_error)
 		{
 			return app_state.current_error;
 		}
-	}
+		if(app_state.current_state_func == app_state_menu_tprobe3_calib)
+		{
+			app_state.t3_resistance = tsens_measure3_resistance(&app_state.current_error);
+			if(app_state.current_error)
+			{
+				return app_state.current_error;
+			}
+		}
+		// min, max temp protection
+		if(app_state.t3_current_temp < HEATER_TR_PROTECTION_MIN_TEMP)
+			return EC_THERMISTOR_MIN_TEMP;
+		else if(app_state.t3_current_temp > HEATER_TR_PROTECTION_MAX_TEMP)
+			return EC_THERMISTOR_MAX_TEMP;
+		
+		// unresponsive thermistor protection
+		if(app_state.settings.controlling_tprobe == 3 || HEATER_SAFETY_TPROBE == 3)
+		{
+			if(app_state.heater_rapid_heating
+				&& (app_state.t3_current_temp - app_state.t3_tr_check_start_temp) < HEATER_PROBE3_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t3_tr_check_start_time) > HEATER_PROBE3_TR_PROTECTION_INTERVAL) // if temp change under full power not reached within interval
+			{
+				return EC_THERMISTOR_NOT_RESPONDING;
+			}
+			else if(app_state.heater_rapid_heating
+				&& (app_state.t3_current_temp - app_state.t3_tr_check_start_temp) >= HEATER_PROBE3_TR_PROTECTION_EXPECTED_TEMP_CHANGE
+				&& appt_cycles_to_seconds(appt_get_cycles_since_startup() - app_state.t3_tr_check_start_time) <= HEATER_PROBE3_TR_PROTECTION_INTERVAL)// reset start temp and time for next cycle
+			{
+				app_state.t3_tr_check_start_temp = app_state.t3_current_temp;
+				app_state.t3_tr_check_start_time = appt_get_cycles_since_startup();
+			}
+		}
 	#endif
 	
 	// pid stuff
@@ -250,11 +347,42 @@ ErrorCode app_control()
 		
 		float pid_res = pid_step(&app_state.pid_state, process_val, app_state.settings.heater_target_temp);
 		// if heater temp is > than safe maximum, default pwm duty cycle to 0
-		if(HEATER_SAFETY_TPROBE_CURRENT_TEMP > HEATER_MAX_TEMP) // HEATER_SAFETY_TPROBE_CURRENT_TEMP is the selected heater probe used to limit the maximum heater temperature
-			heater_set_duty_cycle(0);
+		uint8_t hdc;
+		if(HEATER_SAFETY_TPROBE_CURRENT_TEMP > HEATER_MAX_OPERATING_TEMP) // HEATER_SAFETY_TPROBE_CURRENT_TEMP is the selected heater probe used to limit the maximum heater temperature
+			hdc = 0;
 		else
-			heater_set_duty_cycle((uint8_t)pid_res);
+			hdc = (uint8_t)pid_res;
 		
+		if(hdc >= HEATER_TR_DUTY_CYCLE && !app_state.heater_rapid_heating) // beginning of rapid heating period.
+		{
+			app_state.heater_rapid_heating = TRUE;
+			#ifdef TSENS_PROBE_0
+				app_state.t0_tr_check_start_temp = app_state.t0_current_temp;
+				app_state.t0_tr_check_start_time = appt_get_cycles_since_startup();
+			#endif
+			
+			#ifdef TSENS_PROBE_1
+				app_state.t1_tr_check_start_temp = app_state.t1_current_temp;
+				app_state.t1_tr_check_start_time = appt_get_cycles_since_startup();
+			#endif
+			
+			#ifdef TSENS_PROBE_2
+				app_state.t2_tr_check_start_temp = app_state.t2_current_temp;
+				app_state.t2_tr_check_start_time = appt_get_cycles_since_startup();
+			#endif
+			
+			#ifdef TSENS_PROBE_3
+				app_state.t3_tr_check_start_temp = app_state.t3_current_temp;
+				app_state.t3_tr_check_start_time = appt_get_cycles_since_startup();
+			#endif
+		}
+		else if(hdc < HEATER_TR_DUTY_CYCLE && app_state.heater_rapid_heating) // reset TRP state, end of rapid heating period
+		{
+			app_state.heater_rapid_heating = FALSE;
+		}
+		
+		// set heater duty cycle
+		heater_set_duty_cycle(hdc);
 	}
 	return EC_SUCCESS; // everything ok
 }
@@ -425,6 +553,7 @@ ErrorCode app_state_menu_heater_onoff()
 		else
 		{
 			heater_off();
+			app_state.heater_rapid_heating = FALSE;
 		}
 		pid_reset(&app_state.pid_state);
 	}
@@ -864,22 +993,7 @@ void app_error_display()
 	{
 		case EC_SUCCESS:
 			break;
-		case EC_THERMISTOR_OPEN_CIRCUIT:
-			srd_clear();
-			mr_thermistor_error(app_state.current_error);
-			srd_display();
-			break;
-		case EC_THERMISTOR_SHORT_CIRCUIT:
-			srd_clear();
-			mr_thermistor_error(app_state.current_error);
-			srd_display();
-			break;
-		case EC_THERMISTOR_NOT_RESPONDING:
-			srd_clear();
-			mr_thermistor_error(app_state.current_error);
-			srd_display();
-			break;
-		case EC_NO_CONTROLLING_TPROBE:
+		default:
 			srd_clear();
 			mr_thermistor_error(app_state.current_error);
 			srd_display();

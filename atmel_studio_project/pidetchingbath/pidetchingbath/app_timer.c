@@ -10,8 +10,6 @@
 #include <avr/interrupt.h>
 #include <util/atomic.h>
 
-// --------------------------- PRIVATE ---------------------------------------
-
 #if APP_TIMER_PRESCALE == APP_TIMER_PRESCALE_1	// 1
 	#define APP_TIMER_PRESCALE_BITS (1 << CS00)
 	#define APP_TIMER_TIME_MUL 1
@@ -35,18 +33,7 @@
 
 #define APP_TIMER_CLOCK_STOP_BITS ((1 << CS00) | (1 << CS01) | (1 << CS02))
 
-#define APPT_CYCLE_ZERO 0x0
-#if APP_TIMER_RESOLUTION == APP_TIMER_RES_64_BIT // 64 bit
-	typedef uint64_t appt_cycle_t;	
-#elif APP_TIMER_RESOLUTION == APP_TIMER_RES_32_BIT // 32 bit
-	typedef uint32_t appt_cycle_t;
-#elif APP_TIMER_RESOLUTION == APP_TIMER_RES_16_BIT // 16 bit
-	typedef uint16_t appt_cycle_t;
-#elif APP_TIMER_RESOLUTION == APP_TIMER_RES_8_BIT // 8 bit
-	typedef uint8_t appt_cycle_t;
-#else
-	typedef uint8_t appt_cycle_t;
-#endif
+#define APPT_CYCLE_ZERO 0
 
 // global counter
 volatile appt_cycle_t appt_cycles;
@@ -63,37 +50,35 @@ typedef struct
 // callback array
 appt_callback_entry appt_callbacks[APP_TIMER_MAX_CALLBACKS];
 
-appt_cycle_t seconds_to_cycles(float seconds)
+appt_cycle_t appt_seconds_to_cycles(float seconds)
 {
 	return (appt_cycle_t)(seconds / APP_TIMER_TICK_DURATION + 0.5);
 }
 
-float cycles_to_seconds(appt_cycle_t cycles)
+float appt_cycles_to_seconds(appt_cycle_t cycles)
 {
 	return cycles * APP_TIMER_TICK_DURATION;
 }
 
-float cycles_to_milli_seconds(appt_cycle_t cycles)
+float appt_cycles_to_milli_seconds(appt_cycle_t cycles)
 {
 	return cycles * APP_TIMER_TICK_DURATION * 10e3;
 }
 
-float cycles_to_micro_seconds(appt_cycle_t cycles)
+float appt_cycles_to_micro_seconds(appt_cycle_t cycles)
 {
 	return cycles * APP_TIMER_TICK_DURATION * 10e6;
 }
 
-float cycles_to_minutes(appt_cycle_t cycles)
+float appt_cycles_to_minutes(appt_cycle_t cycles)
 {
 	return (cycles * APP_TIMER_TICK_DURATION) / 60.0;
 }
 
-float cycles_to_hours(appt_cycle_t cycles)
+float appt_cycles_to_hours(appt_cycle_t cycles)
 {
 	return (cycles * APP_TIMER_TICK_DURATION) / 3600.0;
 }
-
-// --------------------------- PUBLIC ----------------------------------------
 
 void appt_init()
 {
@@ -183,30 +168,40 @@ ErrorCode appt_update()
 	return FALSE;
 }
 
+float appt_get_hours_since_startup()
+{
+	return appt_cycles_to_hours(appt_cycles_old);
+}
+
 float appt_get_minutes_since_startup()
 {
-	return cycles_to_minutes(appt_cycles_old);
+	return appt_cycles_to_minutes(appt_cycles_old);
 }
 
 float appt_get_seconds_since_startup()
 {
-	return cycles_to_seconds(appt_cycles_old);
+	return appt_cycles_to_seconds(appt_cycles_old);
 }
 
 float appt_get_milli_seconds_since_startup()
 {
-	return cycles_to_milli_seconds(appt_cycles_old);
+	return appt_cycles_to_milli_seconds(appt_cycles_old);
 }
 
 float appt_get_micro_seconds_since_startup()
 {
-	return cycles_to_micro_seconds(appt_cycles_old);
+	return appt_cycles_to_micro_seconds(appt_cycles_old);
+}
+
+appt_cycle_t appt_get_cycles_since_startup()
+{
+	return appt_cycles_old;
 }
 
 void appt_set_callback(float interval, appt_callback func, uint8_t index)
 {
 	assert(index < APP_TIMER_MAX_CALLBACKS);
-	appt_callbacks[index] = (appt_callback_entry){seconds_to_cycles(interval), APPT_CYCLE_ZERO, func};
+	appt_callbacks[index] = (appt_callback_entry){appt_seconds_to_cycles(interval), APPT_CYCLE_ZERO, func};
 }
 
 void appt_clear_callback(uint8_t index)

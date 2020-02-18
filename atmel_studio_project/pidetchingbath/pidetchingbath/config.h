@@ -64,20 +64,39 @@
 // box filter with 4-sample-width
 #define TSENS_NUM_MEASUREMENTS 4
 
+// -------------------- heater --------------------------------------------------------------------------
+// 256 gives ~60hz PWM frequency
+#define HEATER_PWM_PRESCALE 256 // must be one out of {1, 8, 32, 64, 128, 256, 1024}
+#define HEATER_CONTROL_MIN 0 // maximum duty cycle
+#define HEATER_CONTROL_MAX 100 // minimum duty cycle
+
+#define HEATER_MAX_OPERATING_TEMP 100.0 // max 100% duty cycle operating temp of heater mat
+	
+// heater thermal protection stuff
+#define HEATER_SAFETY_TPROBE 0 // heater-attached safety probe index {0, 1, 2, 3}. Selected probe must be present and configured. Used to limit temperature of the heating element itself.
+#define HEATER_TR_PROTECTION_MAX_TEMP 200.0 // if a temperature greater than this value is read from any probe, MAX_TEMP_ERROR is triggered
+#define HEATER_TR_PROTECTION_MIN_TEMP 0.0 // if a temperature smaller than this value is read from any probe, MIN_TEMP_ERROR is triggered
+
+// if heater is operating at full duty cycle, some temperature change is expected after some time interval.
+// if the temperature change after that time interval is smaller than the expected change, THERMAL_RUNAWAY_ERROR is triggered.
+#define HEATER_PROBE0_TR_PROTECTION_EXPECTED_TEMP_CHANGE 5.0 // expected temp change for probe 0
+#define HEATER_PROBE1_TR_PROTECTION_EXPECTED_TEMP_CHANGE 2.0 // expected temp change for probe 1
+//#define HEATER_PROBE2_EXPECTED_TEMP_CHANGE 1.0 //
+//#define HEATER_PROBE3_EXPECTED_TEMP_CHANGE 1.0 //
+
+// time intervals for thermal runway protection (time in seconds)
+#define HEATER_PROBE0_TR_PROTECTION_INTERVAL 15 // at full heater dc, the heater mat thermistor should read at least 5 degrees temp change within 15 seconds
+#define HEATER_PROBE1_TR_PROTECTION_INTERVAL (3 * 60) // at full heater dc, the bath thermistor should read at least 2 degrees temp change within 3 minutes
+//#define HEATER_PROBE2_TR_PROTECTION_INTERVAL 20
+//#define HEATER_PROBE3_TR_PROTECTION_INTERVAL 20
+
+// defines the min duty cycle of the heater at which the TRP starts counting (has to be less than or equal to HEATER_CONTROL_MAX)
+#define HEATER_TR_DUTY_CYCLE HEATER_CONTROL_MAX - 1
+
 // -------------------- stirrer -------------------------------------------------------------------------
 // 25khz pwm
 #define STIRRER_PWM_PRESCALE 1 // must be one out of {1, 8, 64, 256, 1024}
 #define STIRRER_PWM_TOP 160 // 16 bit uint, determines PWM resolution
-
-// -------------------- heater --------------------------------------------------------------------------
-// 256 gives ~60hz PWM frequency
-#define HEATER_PWM_PRESCALE 256 // must be one out of {1, 8, 32, 64, 128, 256, 1024}
-#define HEATER_CONTROL_MIN 0.0 // maximum duty cycle
-#define HEATER_CONTROL_MAX 100.0 // minimum duty cycle
-
-#define HEATER_MAX_TEMP 100.0 // max safe temp of heater mat
-
-#define HEATER_SAFETY_TPROBE 0 // heater-attached safety probe index {0, 1, 2, 3}. Selected probe must be present and configured. Used to limit temperature of the heating element itself.
 
 // --------------------- display / shift register -------------------------------------------------------
 
@@ -121,7 +140,7 @@
 #define BUTTON0 0
 #define BUTTON1 1
 
-// -------------------- app timer -----------------------------------------------------------------------
+// -------------------- app timer ------------------------------------------------------------------------------------------------
 // one main tick every 100us
 #define APP_TIMER_MAX_CALLBACKS 4
 #define APP_TIMER_BASE_CLOCK 99
@@ -131,10 +150,10 @@
 // callback intervals in seconds
 #define APP_PID_LOOP_INTERVAL 0.02 // ~50hz
 #define APP_USER_LOOP_INTERVAL 0.04 // ~25hz
-#define APP_ROT_ENC_UPDATE_INTERVAL 0.001
-#define APP_BUTTON_UPDATE_INTERVAL 0.005
+#define APP_ROT_ENC_UPDATE_INTERVAL 0.001 // every 1 ms
+#define APP_BUTTON_UPDATE_INTERVAL 0.005 // every 5 ms
 
-// -------------------- settings -------------------------------------------------------------------------
+// -------------------- default user-adjustable settings -------------------------------------------------------------------------
 
 // default values
 #define SETTINGS_DEFAULT_HEATER_TARGET_TEMP 25.0
@@ -174,7 +193,9 @@ typedef enum {
 	EC_THERMISTOR_OPEN_CIRCUIT = 1,
 	EC_THERMISTOR_SHORT_CIRCUIT = 2,
 	EC_THERMISTOR_NOT_RESPONDING = 3,
-	EC_NO_CONTROLLING_TPROBE = 4
+	EC_NO_CONTROLLING_TPROBE = 4,
+	EC_THERMISTOR_MAX_TEMP = 5,
+	EC_THERMISTOR_MIN_TEMP = 6
 } ErrorCode;
 
 #endif /* CONFIG_H_ */
