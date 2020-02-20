@@ -2106,6 +2106,12 @@ design rules under a new name.</description>
 <wire x1="55.245" y1="3.048" x2="55.88" y2="3.683" width="0.3" layer="16"/>
 <wire x1="57.023" y1="3.683" x2="57.912" y2="2.794" width="0.3" layer="16"/>
 <wire x1="55.88" y1="3.683" x2="57.023" y2="3.683" width="0.3" layer="16"/>
+<polygon width="0.01" layer="16" isolate="0.5">
+<vertex x="0.127" y="99.949"/>
+<vertex x="0.127" y="-0.127"/>
+<vertex x="101.854" y="-0.127"/>
+<vertex x="101.854" y="99.949"/>
+</polygon>
 </signal>
 <signal name="VCC">
 <contactref element="P1" pad="1"/>

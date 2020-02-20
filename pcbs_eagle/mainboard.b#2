@@ -2234,9 +2234,6 @@ design rules under a new name.</description>
 <wire x1="24.13" y1="81.28" x2="22.86" y2="82.55" width="0.4" layer="16"/>
 <wire x1="22.86" y1="82.55" x2="20.955" y2="82.55" width="0.4" layer="16"/>
 </signal>
-<signal name="N$26">
-<contactref element="AVR_JTAG1" pad="5"/>
-</signal>
 <signal name="TCK">
 <contactref element="IC1" pad="24"/>
 <contactref element="AVR_JTAG1" pad="1"/>
@@ -2250,6 +2247,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="TMS">
 <contactref element="IC1" pad="25"/>
+<contactref element="AVR_JTAG1" pad="5"/>
+<wire x1="28.575" y1="16.51" x2="20.955" y2="72.39" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="TDO">
 <contactref element="IC1" pad="26"/>

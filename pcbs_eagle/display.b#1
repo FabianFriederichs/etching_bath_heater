@@ -2016,8 +2016,8 @@ design rules under a new name.</description>
 <wire x1="59.944" y1="7.747" x2="59.944" y2="10.287" width="0.3" layer="16"/>
 <wire x1="86.36" y1="6.223" x2="71.755" y2="6.223" width="0.3" layer="16"/>
 <wire x1="71.501" y1="6.477" x2="71.755" y2="6.223" width="0.3" layer="16"/>
-<wire x1="43.434" y1="85.217" x2="45.974" y2="87.757" width="0.3" layer="16"/>
-<wire x1="45.974" y1="87.757" x2="45.974" y2="88.392" width="0.3" layer="16"/>
+<wire x1="43.434" y1="85.217" x2="45.974" y2="85.217" width="0.3" layer="16"/>
+<wire x1="45.974" y1="85.217" x2="45.974" y2="88.392" width="0.3" layer="16"/>
 <via x="45.974" y="88.392" extent="1-16" drill="0.8"/>
 <wire x1="45.974" y1="88.392" x2="45.847" y2="88.519" width="0.3" layer="1"/>
 <wire x1="45.847" y1="93.472" x2="45.847" y2="88.519" width="0.3" layer="1"/>
@@ -2106,6 +2106,12 @@ design rules under a new name.</description>
 <wire x1="55.245" y1="3.048" x2="55.88" y2="3.683" width="0.3" layer="16"/>
 <wire x1="57.023" y1="3.683" x2="57.912" y2="2.794" width="0.3" layer="16"/>
 <wire x1="55.88" y1="3.683" x2="57.023" y2="3.683" width="0.3" layer="16"/>
+<polygon width="0.1524" layer="16" isolate="0.5">
+<vertex x="0.127" y="99.949"/>
+<vertex x="0.127" y="-0.127"/>
+<vertex x="101.854" y="-0.127"/>
+<vertex x="101.854" y="99.949"/>
+</polygon>
 </signal>
 <signal name="VCC">
 <contactref element="P1" pad="1"/>
@@ -3075,11 +3081,11 @@ design rules under a new name.</description>
 <wire x1="82.804" y1="28.067" x2="81.534" y2="29.337" width="0.3" layer="16"/>
 <wire x1="88.91791875" y1="81.5172125" x2="88.91791875" y2="83.8367875" width="0.3" layer="16"/>
 <wire x1="81.534" y1="74.13329375" x2="88.91791875" y2="81.5172125" width="0.3" layer="16"/>
-<wire x1="88.91791875" y1="83.8367875" x2="87.72270625" y2="85.032" width="0.3" layer="16"/>
-<wire x1="87.72270625" y1="85.032" x2="82.354" y2="85.032" width="0.3" layer="16"/>
+<wire x1="88.91791875" y1="83.8367875" x2="87.08770625" y2="85.667" width="0.3" layer="16"/>
+<wire x1="87.08770625" y1="85.667" x2="81.719" y2="85.667" width="0.3" layer="16"/>
 <wire x1="80.264" y1="87.122" x2="80.264" y2="90.297" width="0.3" layer="16"/>
 <wire x1="81.534" y1="29.337" x2="81.534" y2="74.13329375" width="0.3" layer="16"/>
-<wire x1="82.354" y1="85.032" x2="80.264" y2="87.122" width="0.3" layer="16"/>
+<wire x1="81.719" y1="85.667" x2="80.264" y2="87.122" width="0.3" layer="16"/>
 </signal>
 <signal name="N$46">
 <contactref element="SR5" pad="1"/>

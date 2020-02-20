@@ -1771,20 +1771,20 @@ design rules under a new name.</description>
 <attribute name="NAME" x="12.7" y="19.05" size="1.778" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="12.7" y="29.21" size="1.778" layer="27" ratio="10" rot="R90"/>
 </element>
-<element name="CVCC" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C025-024X044" package3d_urn="urn:adsk.eagle:package:23630/1" value="" x="50.8" y="29.21" smashed="yes">
-<attribute name="NAME" x="49.022" y="30.607" size="1.27" layer="25" ratio="10"/>
-<attribute name="SPICEPREFIX" value="C" x="104.14" y="-20.32" size="1.778" layer="27" display="off"/>
-<attribute name="VALUE" x="49.022" y="26.543" size="1.27" layer="27" ratio="10"/>
+<element name="CVCC" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C025-024X044" package3d_urn="urn:adsk.eagle:package:23630/1" value="" x="74.93" y="29.21" smashed="yes" rot="R90">
+<attribute name="NAME" x="73.533" y="27.432" size="1.27" layer="25" ratio="10" rot="R90"/>
+<attribute name="SPICEPREFIX" value="C" x="124.46" y="82.55" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="VALUE" x="77.597" y="27.432" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
-<element name="CAVCC" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C025-024X044" package3d_urn="urn:adsk.eagle:package:23630/1" value="" x="59.69" y="30.48" smashed="yes">
-<attribute name="NAME" x="57.912" y="31.877" size="1.27" layer="25" ratio="10"/>
-<attribute name="SPICEPREFIX" value="C" x="118.11" y="-19.05" size="1.778" layer="27" display="off"/>
-<attribute name="VALUE" x="57.912" y="27.813" size="1.27" layer="27" ratio="10"/>
+<element name="CAVCC" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C025-024X044" package3d_urn="urn:adsk.eagle:package:23630/1" value="" x="71.12" y="29.21" smashed="yes" rot="R90">
+<attribute name="NAME" x="69.723" y="27.432" size="1.27" layer="25" ratio="10" rot="R90"/>
+<attribute name="SPICEPREFIX" value="C" x="120.65" y="87.63" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="VALUE" x="73.787" y="27.432" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
-<element name="CAREF" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C025-024X044" package3d_urn="urn:adsk.eagle:package:23630/1" value="" x="69.85" y="30.48" smashed="yes" rot="R90">
-<attribute name="NAME" x="68.453" y="28.702" size="1.27" layer="25" ratio="10" rot="R90"/>
-<attribute name="SPICEPREFIX" value="C" x="124.46" y="45.72" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="VALUE" x="72.517" y="28.702" size="1.27" layer="27" ratio="10" rot="R90"/>
+<element name="CAREF" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C025-024X044" package3d_urn="urn:adsk.eagle:package:23630/1" value="" x="67.31" y="29.21" smashed="yes" rot="R90">
+<attribute name="NAME" x="65.913" y="27.432" size="1.27" layer="25" ratio="10" rot="R90"/>
+<attribute name="SPICEPREFIX" value="C" x="121.92" y="44.45" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="VALUE" x="69.977" y="27.432" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="C4" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C025-024X044" package3d_urn="urn:adsk.eagle:package:23630/1" value="" x="58.42" y="45.72" smashed="yes" rot="R90">
 <attribute name="NAME" x="57.023" y="43.942" size="1.27" layer="25" ratio="10" rot="R90"/>
@@ -1874,7 +1874,7 @@ design rules under a new name.</description>
 <wire x1="31.83" y1="10.16" x2="83.82" y2="44.45" width="0" layer="19" extent="1-1"/>
 <wire x1="39.45" y1="48.26" x2="49.61" y2="10.16" width="0" layer="19" extent="1-1"/>
 <wire x1="27.94" y1="20.32" x2="39.45" y2="48.26" width="0" layer="19" extent="1-1"/>
-<wire x1="49.53" y1="29.21" x2="27.94" y2="20.32" width="0" layer="19" extent="1-1"/>
+<wire x1="74.93" y1="27.94" x2="27.94" y2="20.32" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="/RESET">
 <contactref element="R2" pad="2"/>
@@ -1895,7 +1895,7 @@ design rules under a new name.</description>
 <signal name="N$9">
 <contactref element="CAREF" pad="1"/>
 <contactref element="IC1" pad="32"/>
-<wire x1="57.15" y1="36.83" x2="69.85" y2="29.21" width="0" layer="19" extent="1-1"/>
+<wire x1="57.15" y1="36.83" x2="67.31" y2="27.94" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="GND">
 <contactref element="IC1" pad="31"/>
@@ -1916,7 +1916,7 @@ design rules under a new name.</description>
 <contactref element="C6" pad="1"/>
 <contactref element="C7" pad="1"/>
 <contactref element="C5" pad="1"/>
-<wire x1="58.42" y1="44.45" x2="69.85" y2="31.75" width="0" layer="19" extent="1-1"/>
+<wire x1="58.42" y1="44.45" x2="67.31" y2="30.48" width="0" layer="19" extent="1-1"/>
 <wire x1="62.23" y1="44.45" x2="58.42" y2="44.45" width="0" layer="19" extent="1-1"/>
 <wire x1="66.04" y1="44.45" x2="62.23" y2="44.45" width="0" layer="19" extent="1-1"/>
 <wire x1="69.85" y1="44.45" x2="66.04" y2="44.45" width="0" layer="19" extent="1-1"/>
@@ -1930,8 +1930,8 @@ design rules under a new name.</description>
 <wire x1="85.01" y1="10.16" x2="69.85" y2="44.45" width="0" layer="19" extent="1-1"/>
 <wire x1="59.61" y1="10.16" x2="85.01" y2="10.16" width="0" layer="19" extent="1-1"/>
 <wire x1="49.45" y1="48.26" x2="59.61" y2="10.16" width="0" layer="19" extent="1-1"/>
-<wire x1="60.96" y1="30.48" x2="49.45" y2="48.26" width="0" layer="19" extent="1-1"/>
-<wire x1="52.07" y1="29.21" x2="60.96" y2="30.48" width="0" layer="19" extent="1-1"/>
+<wire x1="71.12" y1="30.48" x2="49.45" y2="48.26" width="0" layer="19" extent="1-1"/>
+<wire x1="74.93" y1="30.48" x2="71.12" y2="30.48" width="0" layer="19" extent="1-1"/>
 <wire x1="62.23" y1="21.59" x2="59.69" y2="36.83" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$1">
@@ -1939,7 +1939,7 @@ design rules under a new name.</description>
 <contactref element="CAVCC" pad="1"/>
 <contactref element="L1" pad="2"/>
 <wire x1="62.23" y1="36.83" x2="73.66" y2="44.45" width="0" layer="19" extent="1-1"/>
-<wire x1="58.42" y1="30.48" x2="62.23" y2="36.83" width="0" layer="19" extent="1-1"/>
+<wire x1="71.12" y1="27.94" x2="62.23" y2="36.83" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="ADC0">
 <contactref element="IC1" pad="40"/>
