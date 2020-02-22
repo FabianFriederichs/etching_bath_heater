@@ -1051,6 +1051,7 @@ void app_load_settings_from_eeprom()
 	{
 		app_state.settings = load_settings.settings;
 	}
+	pid_set_params(&app_state.pid_state, app_state.settings.heater_pid_p, app_state.settings.heater_pid_i, app_state.settings.heater_pid_d, app_state.settings.heater_pid_i_clamp, HEATER_CONTROL_MIN, HEATER_CONTROL_MAX);
 }
 
 void app_store_settings_to_eeprom()
