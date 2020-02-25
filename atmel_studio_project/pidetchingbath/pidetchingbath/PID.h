@@ -10,7 +10,7 @@
 
 typedef struct
 {
-	float old_error;
+	float old_process_value;
 	float integrator;
 	float kp;
 	float ki;
