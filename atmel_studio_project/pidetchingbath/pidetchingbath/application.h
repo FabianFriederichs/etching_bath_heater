@@ -36,11 +36,11 @@
 typedef struct
 {
 	float heater_target_temp;
-	float heater_pid_p;
-	float heater_pid_i;
-	float heater_pid_d;
+	float heater_pid_kp;
+	float heater_pid_ti;
+	float heater_pid_td;
 	float heater_pid_i_clamp;
-	float heater_offset;
+	float heater_pid_offset;
 	uint8_t controlling_tprobe;
 } app_settings_t;
 

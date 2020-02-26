@@ -33,11 +33,11 @@
 #define MAX_HEATER_TARGET_TEMP 100.0
 
 #define MIN_HEATER_PID_P 0.0
-#define MAX_HEATER_PID_P 1000.0
+#define MAX_HEATER_PID_P 999.99
 #define MIN_HEATER_PID_I 0.0
-#define MAX_HEATER_PID_I 1000.0
+#define MAX_HEATER_PID_I 999.99
 #define MIN_HEATER_PID_D 0.0
-#define MAX_HEATER_PID_D 1000.0
+#define MAX_HEATER_PID_D 999.99
 // static clamping on top of dynamic c. Wen don't need I for speed in this application
 #define MAX_HEATER_PID_I_CLAMP 1.0
 #define MIN_HEATER_PID_I_CLAMP 0.0
@@ -127,7 +127,7 @@
 
 // rotary encoder intervals
 #define TEMP_CHANGE_PER_ROTENC_STEP 0.5
-#define PID_CHANGE_PER_ROTENC_STEP 0.01
+#define PID_CHANGE_PER_ROTENC_STEP 0.05
 #define STIRRER_DC_CHANGE_PER_STEP 1
 
 // -------------------- switch --------------------------------------------------------------------------
@@ -160,10 +160,10 @@
 
 // default values
 #define SETTINGS_DEFAULT_HEATER_TARGET_TEMP 25.0
-#define SETTINGS_DEFAULT_HEATER_PID_P 1.0
-#define SETTINGS_DEFAULT_HEATER_PID_I 0.0
-#define SETTINGS_DEFAULT_HEATER_PID_D 0.0
-#define SETTINGS_DEFAULT_HEATER_OFFSET 0.0
+#define SETTINGS_DEFAULT_HEATER_PID_KP 1.0
+#define SETTINGS_DEFAULT_HEATER_PID_TI 300.0
+#define SETTINGS_DEFAULT_HEATER_PID_TD 0.0
+#define SETTINGS_DEFAULT_HEATER_PID_OFFSET 0.0
 #define SETTINGS_DEFAULT_HEATER_PID_I_CLAMP 0.25
 #define SETTINGS_DEFAULT_CONTROLLING_TPROBE HEATER_SAFETY_TPROBE
 
@@ -202,5 +202,8 @@ typedef enum {
 	EC_THERMISTOR_MAX_TEMP = 5,
 	EC_THERMISTOR_MIN_TEMP = 6
 } ErrorCode;
+
+// --------------------- PID -------------------------------------------------
+#define PID_DELTA_T APP_PID_LOOP_INTERVAL
 
 #endif /* CONFIG_H_ */

@@ -26,7 +26,7 @@ void mr_heater_menu_pid_p(float pid_p);
 void mr_heater_menu_pid_i(float pid_i);
 void mr_heater_menu_pid_d(float pid_d);
 void mr_heater_menu_pid_i_clamp(float pid_i_clamp);
-void mr_heater_menu_offset(float offset);
+void mr_heater_menu_pid_offset(float offset);
 
 void mr_stirrer_menu_dc(uint8_t dutycycle);
 
