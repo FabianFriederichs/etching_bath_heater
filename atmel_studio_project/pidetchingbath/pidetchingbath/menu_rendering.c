@@ -132,18 +132,21 @@ void mr_heater_menu_pid(uint8_t item_index)
 		case 0: // "---"
 			srd_set(0, SRD_MINUS); srd_set(1, SRD_MINUS); srd_set(2, SRD_MINUS);
 			break;
-		case 1: // "P"
+		case 1: // "KP"
 			srd_set(0, SRD_CK); srd_set(1, SRD_CP);
 			break;
-		case 2: // "I"
+		case 2: // "TI"
 			srd_set(0, SRD_CT); srd_set(1, SRD_CI);
 			break;
-		case 3: // "D"
+		case 3: // "TD"
 			srd_set(0, SRD_CT); srd_set(1, SRD_CD);
 			break;
 		case 4: // "I-CLP"
 			srd_set(0, SRD_CI); srd_set(1, SRD_MINUS); srd_set(2, SRD_CC); srd_set(3, SRD_CL); srd_set(4, SRD_CP);
 			break;
+		case 5: // "OFFSET"
+		srd_set(0, SRD_CO); srd_set(1, SRD_CF); srd_set(2, SRD_CF); srd_set(3, SRD_CS); srd_set(4, SRD_CE); srd_set(5, SRD_CT);
+		break;
 	}
 }
 
@@ -167,32 +170,32 @@ void mr_heater_menu_target_temp(float temp)
 
 void mr_heater_menu_pid_p(float pid_p)
 {
-	srd_set(0, SRD_CP);
+	srd_set(0, SRD_E | SRD_F);
 	srd_setfloat(pid_p, 1, 2, 5);
 }
 
 void mr_heater_menu_pid_i(float pid_i)
 {
-	srd_set(0, SRD_CI);
+	srd_set(0, SRD_E | SRD_F);;
 	srd_setfloat(pid_i, 1, 2, 5);
 }
 
 void mr_heater_menu_pid_d(float pid_d)
 {
-	srd_set(0, SRD_CD);
+	srd_set(0, SRD_E | SRD_F);
 	srd_setfloat(pid_d, 1, 2, 5);
 }
 
 void mr_heater_menu_pid_i_clamp(float pid_i_clamp)
 {
-	srd_set(0, SRD_CI | SRD_DOT); srd_set(1, SRD_CC | SRD_DOT);
-	srd_setfloat(pid_i_clamp, 2, 2, 4);
+	srd_set(0, SRD_E | SRD_F);
+	srd_setfloat(pid_i_clamp, 1, 2, 5);
 }
 
 void mr_heater_menu_pid_offset(float offset)
 {
 	srd_set(0, SRD_E | SRD_F);
-	srd_setfloat(offset, 1, 1, 5);
+	srd_setfloat(offset, 1, 2, 5);
 }
 
 void mr_stirrer_menu_dc(uint8_t dutycycle)

@@ -9,7 +9,7 @@
 #include "my_util.h"
 #include "config.h"
 
-void pid_init(pid_state_t* state, float pid_Kp, float pid_Ti, float pid_Td, float pid_i_clamp, float control_min, float control_max)
+void pid_init(pid_state_t* state, float pid_Kp, float pid_Ti, float pid_Td, float pid_i_clamp, float pid_offset, float control_min, float control_max)
 {
 	state->Kp = pid_Kp;
 	state->Ti = pid_Ti;
@@ -17,13 +17,13 @@ void pid_init(pid_state_t* state, float pid_Kp, float pid_Ti, float pid_Td, floa
 	state->i_clamp = pid_i_clamp;
 	state->control_max = control_max;
 	state->control_min = control_min;
-	state->offset = 0.0;
+	state->offset = pid_offset;
 	
 	state->old_process_value = 0.0;
 	state->integrator = 0.0;
 }
 
-void pid_set_params(pid_state_t* state, float pid_Kp, float pid_Ti, float pid_Td, float pid_i_clamp, float control_min, float control_max)
+void pid_set_params(pid_state_t* state, float pid_Kp, float pid_Ti, float pid_Td, float pid_i_clamp, float pid_offset, float control_min, float control_max)
 {
 	state->Kp = pid_Kp;
 	state->Ti = pid_Ti;
@@ -31,7 +31,7 @@ void pid_set_params(pid_state_t* state, float pid_Kp, float pid_Ti, float pid_Td
 	state->i_clamp = pid_i_clamp;
 	state->control_max = control_max;
 	state->control_min = control_min;
-	state->offset = 0.0;
+	state->offset = pid_offset;
 }
 
 float pid_step(pid_state_t* state, float process_value, float set_value)
@@ -47,7 +47,7 @@ float pid_step(pid_state_t* state, float process_value, float set_value)
 	// integrate and clamp error signal; dynamic clamping! (and additionally scale the usable integrator range with i_clamp e[0, 1] to lessen the integrator overshoot for large delays)
 	float i_max = fmax(state->control_max - output, 0.0) * state->i_clamp;
 	float i_min = fmin(state->control_min - output, 0.0) * state->i_clamp;
-	state->integrator = fmax(fmin(state->integrator + (state->Kp / state->Ti) * error * PID_DELTA_T, i_max), i_min);
+	state->integrator = fmax(fmin(state->integrator + (state->Kp / fmax(state->Ti, 1.0 / F_CPU)) * error * PID_DELTA_T, i_max), i_min);
 	output += state->integrator; // = p + i + d
 	// clamp to control signal range and return
 	return fmax(fmin(output, state->control_max), state->control_min);	
