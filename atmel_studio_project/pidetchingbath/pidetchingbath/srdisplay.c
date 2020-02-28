@@ -124,9 +124,17 @@ static uint8_t srd_signed_int16_to_patterns(int16_t num, uint8_t isneg, uint8_t 
 
 static uint8_t srd_float_to_patterns(float num, uint8_t decimal_places, uint8_t * buf, uint8_t buflength)
 {
+	// round to decimal places
 	uint8_t isneg = num < 0.0;
 	int16_t wholePart = (int16_t)num;
-	int16_t fracPart = (int16_t)(fabs(num - (float)wholePart) * (float)decpowi16(decimal_places));
+	int16_t sf = decpowi16(decimal_places);
+	float fracf = num - (float)wholePart;
+	int16_t fracPart = (int16_t)(fracf * sf + (isneg ? -0.5f : 0.5)) * (isneg ? -1 : 1);
+	if(fracPart == sf) // handle case where rounding changes wholePart
+	{
+		fracPart = 0;
+		wholePart += (isneg ? -1 : 1);
+	}
 	uint8_t whplen = srd_signed_ctd(wholePart, isneg);
 	uint8_t frplen = srd_ctd(fracPart);
 	if((whplen + decimal_places) > buflength)

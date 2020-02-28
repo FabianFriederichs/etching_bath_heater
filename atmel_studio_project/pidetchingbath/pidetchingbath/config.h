@@ -127,7 +127,7 @@
 
 // rotary encoder intervals
 #define TEMP_CHANGE_PER_ROTENC_STEP 0.5
-#define PID_CHANGE_PER_ROTENC_STEP 0.05
+#define PID_CHANGE_PER_ROTENC_STEP 0.1
 #define STIRRER_DC_CHANGE_PER_STEP 1
 
 // -------------------- switch --------------------------------------------------------------------------
@@ -161,7 +161,7 @@
 // default values
 #define SETTINGS_DEFAULT_HEATER_TARGET_TEMP 25.0
 #define SETTINGS_DEFAULT_HEATER_PID_KP 1.0
-#define SETTINGS_DEFAULT_HEATER_PID_TI 300.0
+#define SETTINGS_DEFAULT_HEATER_PID_TI 60.0
 #define SETTINGS_DEFAULT_HEATER_PID_TD 0.0
 #define SETTINGS_DEFAULT_HEATER_PID_OFFSET 0.0
 #define SETTINGS_DEFAULT_HEATER_PID_I_CLAMP 0.25

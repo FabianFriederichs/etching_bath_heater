@@ -31,22 +31,22 @@ int16_t iabs16(int16_t num)
 
 int8_t iround8(float num)
 {
-	return (int8_t)(num + 0.5);
+	return (int8_t)(num + (num < 0.0 ? -0.5 : 0.5));
 }
 
 int16_t iround16(float num)
 {
-	return (int16_t)(num + 0.5);
+	return (int16_t)(num + (num < 0.0 ? -0.5 : 0.5));
 }
 
 int32_t iround32(float num)
 {
-	return (int32_t)(num + 0.5);
+	return (int32_t)(num + (num < 0.0 ? -0.5 : 0.5));
 }
 
 int64_t iround64(float num)
 {
-	return (int64_t)(num + 0.5);
+	return (int64_t)(num + (num < 0.0 ? -0.5 : 0.5));
 }
 
 int8_t imax8(int8_t num1, int8_t num2)
@@ -128,6 +128,12 @@ float fabs(float num)
 		return -num;
 	else
 		return num;
+}
+
+float fround(float num, uint8_t decimal_places)
+{
+	int16_t sf = decpowi16((int16_t)decimal_places);
+	return (float)((int16_t)(num * sf + (num < 0.0 ? -0.5 : 0.5))) / sf;
 }
 
 uint8_t crc7_byte(uint8_t byte)

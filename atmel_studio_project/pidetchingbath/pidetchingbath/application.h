@@ -60,7 +60,7 @@ typedef struct
 	uint8_t magic_number;
 	app_settings_t settings;
 } eeprom_settings_t;
-#define EEPROM_SETTINGS_MAGIC_NUMBER 42
+#define EEPROM_SETTINGS_MAGIC_NUMBER 7
 
 // define safety temp varname
 #ifdef HEATER_SAFETY_TPROBE

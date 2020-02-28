@@ -37,6 +37,7 @@ uint64_t umin64(uint64_t num1, uint64_t num2);
 float fmax(float num1, float num2);
 float fmin(float num1, float num2);
 float fabs(float num);
+float fround(float num, uint8_t decimal_places);
 
 uint8_t crc7_byte(uint8_t byte);
 uint8_t crc7_bytes(const uint8_t byte[], uint16_t length);
