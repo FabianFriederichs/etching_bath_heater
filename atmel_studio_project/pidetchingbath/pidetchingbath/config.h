@@ -41,9 +41,10 @@
 // static clamping on top of dynamic c. Wen don't need I for speed in this application
 #define MAX_HEATER_PID_I_CLAMP 1.0
 #define MIN_HEATER_PID_I_CLAMP 0.0
-
 #define MIN_HEATER_OFFSET -50.0
 #define MAX_HEATER_OFFSET 50.0
+#define MIN_HEATER_PID_D_SMOOTHING_FACTOR 0.0
+#define MAX_HEATER_PID_D_SMOOTHING_FACTOR 1.0
 
 // --------------------- temp sensor -----------------------------------------
 #define TSENS_ADC_PRESCALER 64 // 2, 4, 8, 16, 32, 64, 128. F_CPU / PRESCALER should lie between 50kHz and 200kHz
@@ -127,7 +128,8 @@
 
 // rotary encoder intervals
 #define TEMP_CHANGE_PER_ROTENC_STEP 0.5
-#define PID_CHANGE_PER_ROTENC_STEP 0.1
+#define PID_COARSE_CHANGE_PER_ROTENC_STEP 0.1
+#define PID_FINE_CHANGE_PER_ROTENC_STEP 0.005
 #define STIRRER_DC_CHANGE_PER_STEP 1
 
 // -------------------- switch --------------------------------------------------------------------------
@@ -161,10 +163,11 @@
 // default values
 #define SETTINGS_DEFAULT_HEATER_TARGET_TEMP 25.0
 #define SETTINGS_DEFAULT_HEATER_PID_KP 1.0
-#define SETTINGS_DEFAULT_HEATER_PID_TI 60.0
+#define SETTINGS_DEFAULT_HEATER_PID_TI 30.0
 #define SETTINGS_DEFAULT_HEATER_PID_TD 0.0
 #define SETTINGS_DEFAULT_HEATER_PID_OFFSET 0.0
-#define SETTINGS_DEFAULT_HEATER_PID_I_CLAMP 0.25
+#define SETTINGS_DEFAULT_HEATER_PID_I_CLAMP 1.0
+#define SETTINGS_DEFAULT_HEATER_PID_D_SMOOTHING_FACTOR 0.0
 #define SETTINGS_DEFAULT_CONTROLLING_TPROBE HEATER_SAFETY_TPROBE
 
 //////////////////////////////////////////////////////// HELPER STUFF //////////////////////////////////////////////////////

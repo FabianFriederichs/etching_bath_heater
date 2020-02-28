@@ -133,7 +133,7 @@ void mr_heater_menu_pid(uint8_t item_index)
 			srd_set(0, SRD_MINUS); srd_set(1, SRD_MINUS); srd_set(2, SRD_MINUS);
 			break;
 		case 1: // "KP"
-			srd_set(0, SRD_CK); srd_set(1, SRD_CP);
+			srd_set(0, SRD_CP);
 			break;
 		case 2: // "TI"
 			srd_set(0, SRD_CT); srd_set(1, SRD_CI);
@@ -145,8 +145,11 @@ void mr_heater_menu_pid(uint8_t item_index)
 			srd_set(0, SRD_CI); srd_set(1, SRD_MINUS); srd_set(2, SRD_CC); srd_set(3, SRD_CL); srd_set(4, SRD_CP);
 			break;
 		case 5: // "OFFSET"
-		srd_set(0, SRD_CO); srd_set(1, SRD_CF); srd_set(2, SRD_CF); srd_set(3, SRD_CS); srd_set(4, SRD_CE); srd_set(5, SRD_CT);
-		break;
+			srd_set(0, SRD_CO); srd_set(1, SRD_CF); srd_set(2, SRD_CF); srd_set(3, SRD_CS); srd_set(4, SRD_CE); srd_set(5, SRD_CT);
+			break;
+		case 6: // "DSF"
+			srd_set(0, SRD_CD); srd_set(1, SRD_CS); srd_set(2, SRD_CF);
+			break;
 	}
 }
 
@@ -196,6 +199,12 @@ void mr_heater_menu_pid_offset(float offset)
 {
 	srd_set(0, SRD_E | SRD_F);
 	srd_setfloat(offset, 1, 2, 5);
+}
+
+void mr_heater_menu_pid_dsmooth(float dsmooth)
+{
+	srd_set(0, SRD_E | SRD_F);
+	srd_setfloat(dsmooth, 1, 3, 5);
 }
 
 void mr_stirrer_menu_dc(uint8_t dutycycle)

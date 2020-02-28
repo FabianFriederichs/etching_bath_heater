@@ -41,6 +41,7 @@ typedef struct
 	float heater_pid_td;
 	float heater_pid_i_clamp;
 	float heater_pid_offset;
+	float heater_pid_d_smoothing_factor;
 	uint8_t controlling_tprobe;
 } app_settings_t;
 
@@ -60,7 +61,7 @@ typedef struct
 	uint8_t magic_number;
 	app_settings_t settings;
 } eeprom_settings_t;
-#define EEPROM_SETTINGS_MAGIC_NUMBER 7
+#define EEPROM_SETTINGS_MAGIC_NUMBER 9
 
 // define safety temp varname
 #ifdef HEATER_SAFETY_TPROBE
@@ -155,6 +156,7 @@ ErrorCode app_state_menu_main();
 			ErrorCode app_state_menu_heater_pid_d();
 			ErrorCode app_state_menu_heater_pid_i_clamp();
 			ErrorCode app_state_menu_heater_pid_offset();
+			ErrorCode app_state_menu_heater_pid_d_smoothing_factor();
 	ErrorCode app_state_menu_stirrer();
 		ErrorCode app_state_menu_stirrer_duty_cycle();
 	ErrorCode app_state_menu_tprobe();
