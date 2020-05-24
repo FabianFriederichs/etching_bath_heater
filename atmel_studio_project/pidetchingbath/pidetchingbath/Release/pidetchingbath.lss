@@ -1496,7 +1496,7 @@ Disassembly of section .text:
      f80:	0e 94 25 1b 	call	0x364a	; 0x364a <__subsf3>
      f84:	20 e0       	ldi	r18, 0x00	; 0
      f86:	30 e0       	ldi	r19, 0x00	; 0
-     f88:	40 e4       	ldi	r20, 0x40	; 64
+     f88:	40 e0       	ldi	r20, 0x00	; 0
      f8a:	50 e4       	ldi	r21, 0x40	; 64
      f8c:	0e 94 92 1b 	call	0x3724	; 0x3724 <__cmpsf2>
      f90:	87 ff       	sbrs	r24, 7
@@ -1532,7 +1532,7 @@ Disassembly of section .text:
      ff4:	0e 94 25 1b 	call	0x364a	; 0x364a <__subsf3>
      ff8:	20 e0       	ldi	r18, 0x00	; 0
      ffa:	30 e0       	ldi	r19, 0x00	; 0
-     ffc:	40 e4       	ldi	r20, 0x40	; 64
+     ffc:	40 e0       	ldi	r20, 0x00	; 0
      ffe:	50 e4       	ldi	r21, 0x40	; 64
     1000:	0e 94 7b 1d 	call	0x3af6	; 0x3af6 <__gesf2>
     1004:	87 fd       	sbrc	r24, 7
@@ -1606,8 +1606,8 @@ Disassembly of section .text:
     10ea:	b0 90 7e 01 	lds	r11, 0x017E	; 0x80017e <app_state+0x5f>
     10ee:	20 e0       	ldi	r18, 0x00	; 0
     10f0:	30 e0       	ldi	r19, 0x00	; 0
-    10f2:	40 ef       	ldi	r20, 0xF0	; 240
-    10f4:	52 e4       	ldi	r21, 0x42	; 66
+    10f2:	4c e0       	ldi	r20, 0x0C	; 12
+    10f4:	53 e4       	ldi	r21, 0x43	; 67
     10f6:	c5 01       	movw	r24, r10
     10f8:	b4 01       	movw	r22, r8
     10fa:	0e 94 7b 1d 	call	0x3af6	; 0x3af6 <__gesf2>
