@@ -16,7 +16,7 @@ main.d main.o: .././main.c .././application.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\eeprom.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  .././app_timer.h .././srdisplay.h .././switch.h .././rotary_encoder.h \
- .././temp_sensors.h .././stirrer.h .././heater.h .././PID.h \
+ .././temp_sensors.h .././stirrer_fan.h .././heater.h .././PID.h \
  .././menu_rendering.h .././my_util.h
 
 .././application.h:
@@ -63,7 +63,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 .././temp_sensors.h:
 
-.././stirrer.h:
+.././stirrer_fan.h:
 
 .././heater.h:
 

@@ -23,15 +23,19 @@ SOFTWARE.
  */ 
 
 
-#ifndef STIRRER_H_
-#define STIRRER_H_
+#ifndef STIRRER_FAN_H_
+#define STIRRER_FAN_H_
 #include <stdint.h>
 
-void stirrer_init();
-void stirrer_shutdown();
+void stirrer_fan_init();
+void stirrer_fan_shutdown();
 
 void stirrer_set_duty_cycle(uint8_t dc);
 void stirrer_on();
 void stirrer_off();
+
+void fan_set_duty_cycle(uint8_t dc);
+void fan_on();
+void fan_off();
 
 #endif /* STIRRER_H_ */

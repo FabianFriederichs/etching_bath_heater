@@ -39,7 +39,7 @@ SOFTWARE.
 #include "switch.h"
 #include "rotary_encoder.h"
 #include "temp_sensors.h"
-#include "stirrer.h"
+#include "stirrer_fan.h"
 #include "heater.h"
 #include "PID.h"
 
@@ -60,6 +60,7 @@ typedef struct
 	float heater_pid_offset;
 	float heater_pid_d_smoothing_factor;
 	uint8_t controlling_tprobe;
+	uint8_t fan_duty_cycle;
 } app_settings_t;
 
 typedef struct
@@ -78,7 +79,7 @@ typedef struct
 	uint8_t magic_number;
 	app_settings_t settings;
 } eeprom_settings_t;
-#define EEPROM_SETTINGS_MAGIC_NUMBER 9
+#define EEPROM_SETTINGS_MAGIC_NUMBER 42
 
 // define safety temp varname
 #ifdef HEATER_SAFETY_TPROBE
@@ -118,9 +119,11 @@ typedef struct {
 	// controller state
 	pid_state_t pid_state;	
 	uint8_t stirrer_duty_cycle;
+	uint8_t fan_duty_cycle;
 	uint8_t heater_rapid_heating;
 	uint8_t heater_onoff;
 	uint8_t stirrer_onoff;
+	uint8_t fan_onoff;
 	
 	// sensor state
 	#ifdef TSENS_PROBE_0
@@ -176,6 +179,8 @@ ErrorCode app_state_menu_main();
 			ErrorCode app_state_menu_heater_pid_d_smoothing_factor();
 	ErrorCode app_state_menu_stirrer();
 		ErrorCode app_state_menu_stirrer_duty_cycle();
+	ErrorCode app_state_menu_fan();
+		ErrorCode app_state_menu_fan_duty_cycle();
 	ErrorCode app_state_menu_tprobe();
 		ErrorCode app_state_menu_tprobe0_calib();
 		ErrorCode app_state_menu_tprobe1_calib();

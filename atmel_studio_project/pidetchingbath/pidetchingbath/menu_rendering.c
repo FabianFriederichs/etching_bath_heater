@@ -65,13 +65,16 @@ void mr_main_menu(uint8_t item_index)
 		case 2: // "STIR"
 			srd_set(0, SRD_CS); srd_set(1, SRD_CT); srd_set(2, SRD_CI); srd_set(3, SRD_CR);
 			break;
-		case 3: // "T.CALIB"
+		case 3: // "FAN"
+			srd_set(0, SRD_CF); srd_set(1, SRD_CA); srd_set(2, SRD_CN);
+			break;
+		case 4: // "T.CALIB"
 			srd_set(0, SRD_CT | SRD_DOT); srd_set(1, SRD_CC); srd_set(2, SRD_CA); srd_set(3, SRD_CL); srd_set(4, SRD_CI); srd_set(5, SRD_CB);
 			break;
-		case 4: // "LOAD.S."
+		case 5: // "LOAD.S."
 			srd_set(0, SRD_CL); srd_set(1, SRD_CO); srd_set(2, SRD_CA); srd_set(3, SRD_CD | SRD_DOT); srd_set(4, SRD_CS | SRD_DOT);
 			break;
-		case 5: // "STORE.S."
+		case 6: // "STORE.S."
 			srd_set(0, SRD_CS); srd_set(1, SRD_CT); srd_set(2, SRD_CO); srd_set(3, SRD_CR); srd_set(4, SRD_CE | SRD_DOT); srd_set(5, SRD_CS | SRD_DOT);
 			break;
 	}
@@ -112,6 +115,19 @@ void mr_stirrer_menu(uint8_t item_index)
 		case 1: // "SPEED"
 			srd_set(0, SRD_CS); srd_set(1, SRD_CP); srd_set(2, SRD_CE); srd_set(3, SRD_CE); srd_set(4, SRD_CD);
 			break;
+	}
+}
+
+void mr_fan_menu(uint8_t item_index)
+{
+	switch (item_index)
+	{
+		case 0: // "--"
+		srd_set(0, SRD_MINUS); srd_set(1, SRD_MINUS);
+		break;
+		case 1: // "SPEED"
+		srd_set(0, SRD_CS); srd_set(1, SRD_CP); srd_set(2, SRD_CE); srd_set(3, SRD_CE); srd_set(4, SRD_CD);
+		break;
 	}
 }
 
@@ -236,6 +252,19 @@ void mr_stirrer_menu_dc(uint8_t dutycycle)
 	{
 		srd_set(1, SRD_CO); srd_set(2, SRD_CF); srd_set(3, SRD_CF); 
 	}	
+}
+
+void mr_fan_menu_dc(uint8_t dutycycle)
+{
+	srd_set(0, SRD_E | SRD_F);
+	if(dutycycle > 0)
+	{
+		srd_setint16((int16_t)dutycycle, 1, 5);
+	}
+	else
+	{
+		srd_set(1, SRD_CO); srd_set(2, SRD_CF); srd_set(3, SRD_CF);
+	}
 }
 
 void mr_tprobe_menu(uint8_t menu_index)
