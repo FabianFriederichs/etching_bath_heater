@@ -1403,7 +1403,7 @@ Disassembly of section .text:
      e5c:	20 e0       	ldi	r18, 0x00	; 0
      e5e:	30 e0       	ldi	r19, 0x00	; 0
      e60:	40 e7       	ldi	r20, 0x70	; 112
-     e62:	51 e4       	ldi	r21, 0x41	; 65
+     e62:	52 e4       	ldi	r21, 0x42	; 66
      e64:	0e 94 7b 1d 	call	0x3af6	; 0x3af6 <__gesf2>
      e68:	18 16       	cp	r1, r24
      e6a:	0c f0       	brlt	.+2      	; 0xe6e <app_control+0x190>
@@ -1440,7 +1440,7 @@ Disassembly of section .text:
      ed2:	20 e0       	ldi	r18, 0x00	; 0
      ed4:	30 e0       	ldi	r19, 0x00	; 0
      ed6:	40 e7       	ldi	r20, 0x70	; 112
-     ed8:	51 e4       	ldi	r21, 0x41	; 65
+     ed8:	52 e4       	ldi	r21, 0x42	; 66
      eda:	0e 94 92 1b 	call	0x3724	; 0x3724 <__cmpsf2>
      ede:	18 16       	cp	r1, r24
      ee0:	0c f4       	brge	.+2      	; 0xee4 <app_control+0x206>
@@ -1496,8 +1496,8 @@ Disassembly of section .text:
      f80:	0e 94 25 1b 	call	0x364a	; 0x364a <__subsf3>
      f84:	20 e0       	ldi	r18, 0x00	; 0
      f86:	30 e0       	ldi	r19, 0x00	; 0
-     f88:	40 e0       	ldi	r20, 0x00	; 0
-     f8a:	50 e4       	ldi	r21, 0x40	; 64
+     f88:	40 e8       	ldi	r20, 0x80	; 128
+     f8a:	5f e3       	ldi	r21, 0x3F	; 63
      f8c:	0e 94 92 1b 	call	0x3724	; 0x3724 <__cmpsf2>
      f90:	87 ff       	sbrs	r24, 7
      f92:	e7 cf       	rjmp	.-50     	; 0xf62 <app_control+0x284>
@@ -1532,8 +1532,8 @@ Disassembly of section .text:
      ff4:	0e 94 25 1b 	call	0x364a	; 0x364a <__subsf3>
      ff8:	20 e0       	ldi	r18, 0x00	; 0
      ffa:	30 e0       	ldi	r19, 0x00	; 0
-     ffc:	40 e0       	ldi	r20, 0x00	; 0
-     ffe:	50 e4       	ldi	r21, 0x40	; 64
+     ffc:	40 e8       	ldi	r20, 0x80	; 128
+     ffe:	5f e3       	ldi	r21, 0x3F	; 63
     1000:	0e 94 7b 1d 	call	0x3af6	; 0x3af6 <__gesf2>
     1004:	87 fd       	sbrc	r24, 7
     1006:	40 c0       	rjmp	.+128    	; 0x1088 <app_control+0x3aa>
