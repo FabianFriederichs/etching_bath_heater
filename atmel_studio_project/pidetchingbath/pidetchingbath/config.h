@@ -53,7 +53,7 @@ SOFTWARE.
 #define MAX_HEATER_PID_I 999.99
 #define MIN_HEATER_PID_D 0.0
 #define MAX_HEATER_PID_D 999.99
-// static clamping on top of dynamic c. Wen don't need I for speed in this application
+// static clamping on top of dynamic c. We don't need I for speed in this application
 #define MAX_HEATER_PID_I_CLAMP 1.0
 #define MIN_HEATER_PID_I_CLAMP 0.0
 #define MIN_HEATER_OFFSET -50.0
@@ -114,8 +114,8 @@ SOFTWARE.
 
 // -------------------- stirrer -------------------------------------------------------------------------
 // 25khz pwm
-#define STIRRER_PWM_PRESCALE 1 // must be one out of {1, 8, 64, 256, 1024}
-#define STIRRER_PWM_TOP 160 // 16 bit uint, determines PWM resolution
+#define STIRRER_FAN_PWM_PRESCALE 1 // must be one out of {1, 8, 64, 256, 1024}
+#define STIRRER_FAN_PWM_TOP 160 // 16 bit uint, determines PWM resolution
 
 // --------------------- display / shift register -------------------------------------------------------
 
@@ -177,13 +177,14 @@ SOFTWARE.
 
 // default values
 #define SETTINGS_DEFAULT_HEATER_TARGET_TEMP 25.0
-#define SETTINGS_DEFAULT_HEATER_PID_KP 1.0
-#define SETTINGS_DEFAULT_HEATER_PID_TI 30.0
-#define SETTINGS_DEFAULT_HEATER_PID_TD 0.0
+#define SETTINGS_DEFAULT_HEATER_PID_KP 15.00
+#define SETTINGS_DEFAULT_HEATER_PID_TI 60.00
+#define SETTINGS_DEFAULT_HEATER_PID_TD 5.00
 #define SETTINGS_DEFAULT_HEATER_PID_OFFSET 0.0
 #define SETTINGS_DEFAULT_HEATER_PID_I_CLAMP 1.0
-#define SETTINGS_DEFAULT_HEATER_PID_D_SMOOTHING_FACTOR 0.0
+#define SETTINGS_DEFAULT_HEATER_PID_D_SMOOTHING_FACTOR 0.9
 #define SETTINGS_DEFAULT_CONTROLLING_TPROBE HEATER_SAFETY_TPROBE
+#define SETTINGS_DEFAULT_FAN_DUTY_CYCLE 50
 
 //////////////////////////////////////////////////////// HELPER STUFF //////////////////////////////////////////////////////
 // num thermistors

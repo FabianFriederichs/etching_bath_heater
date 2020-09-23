@@ -51,14 +51,21 @@ ErrorCode app_run()
 	
 	// initialize controller state
 	app_state.stirrer_duty_cycle = 0;
+	app_state.fan_duty_cycle = app_state.settings.fan_duty_cycle;
 	app_state.heater_onoff = FALSE;
 	app_state.stirrer_onoff = FALSE;
+	app_state.fan_onoff = (app_state.fan_duty_cycle > 0 ? TRUE : FALSE);
 	app_state.heater_rapid_heating = FALSE;
 	
 	
 	// initialize control
-	stirrer_init();
+	stirrer_fan_init();
 	stirrer_off();
+	fan_set_duty_cycle(app_state.fan_duty_cycle);
+	if(app_state.fan_onoff)
+		fan_on();
+	else
+		fan_off();	
 	heater_init();
 	heater_off();
 	
@@ -89,27 +96,27 @@ ErrorCode app_run()
 	// init sensor readings
 	#ifdef TSENS_PROBE_0
 		app_state.t0_current_temp = tsens_measure_probe0_temp(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 		app_state.t0_resistance = tsens_measure0_resistance(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 	#endif
 	#ifdef TSENS_PROBE_1
 		app_state.t1_current_temp = tsens_measure_probe1_temp(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 		app_state.t1_resistance = tsens_measure1_resistance(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 	#endif
 	#ifdef TSENS_PROBE_2
 		app_state.t2_current_temp = tsens_measure_probe2_temp(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 		app_state.t2_resistance = tsens_measure2_resistance(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 	#endif
 	#ifdef TSENS_PROBE_3
 		app_state.t3_current_temp = tsens_measure_probe3_temp(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 		app_state.t3_resistance = tsens_measure3_resistance(&app_state.current_error);
-		if(app_state.current_error) { heater_shutdown(); stirrer_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
+		if(app_state.current_error) { heater_shutdown(); stirrer_fan_shutdown(); tsens_shutdown(); rotenc_shutdown();	switch_shutdown(); app_error_display();	return app_state.current_error; }
 	#endif
 		
 	// start app timer
@@ -127,7 +134,7 @@ ErrorCode app_run()
 	if(app_state.current_error) // emergency shutdown. keep display alive for error display
 	{
 		heater_shutdown();
-		stirrer_shutdown();
+		stirrer_fan_shutdown();
 		tsens_shutdown();
 		rotenc_shutdown();
 		switch_shutdown();
@@ -139,7 +146,7 @@ ErrorCode app_run()
 	// shutdown app timer
 	appt_shutdown();
 	// shutdown subsystems
-	stirrer_shutdown();
+	stirrer_fan_shutdown();
 	heater_shutdown();
 	tsens_shutdown();
 	rotenc_shutdown();
@@ -470,9 +477,9 @@ ErrorCode app_state_main()
 ErrorCode app_state_menu_main()
 {
 	if(app_state.current_input.rotenc_delta > 0)
-		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index + 1, 5), 0);
+		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index + 1, 6), 0);
 	else if(app_state.current_input.rotenc_delta < 0)
-		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index - 1, 5), 0);
+		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index - 1, 6), 0);
 	// display selected menu item
 	srd_clear();
 	mr_main_menu(app_state.selected_menu_item_index);
@@ -495,16 +502,20 @@ ErrorCode app_state_menu_main()
 				app_state.selected_menu_item_index = 0;
 				app_state.current_state_func = app_state_menu_stirrer;
 				break;
-			case 3:	// thermistor calibration menu
+			case 3:	// fan menu
+				app_state.selected_menu_item_index = 0;
+				app_state.current_state_func = app_state_menu_fan;
+				break;
+			case 4:	// thermistor calibration menu
 				app_state.selected_menu_item_index = 0;
 				app_state.current_state_func = app_state_menu_tprobe;
 				break;
-			case 4:	// load settings from eeprom
+			case 5:	// load settings from eeprom
 				//app_state.selected_menu_item_index = 0;
 				//app_state.current_state_func = app_state_menu_load_eeprom_settings;
 				app_load_settings_from_eeprom();
 				break;
-			case 5:	// store settings to eeprom
+			case 6:	// store settings to eeprom
 				//app_state.selected_menu_item_index = 0;
 				//app_state.current_state_func = app_state_menu_store_eeprom_settings;
 				app_store_settings_to_eeprom();
@@ -901,6 +912,70 @@ ErrorCode app_state_menu_stirrer_duty_cycle()
 	return EC_SUCCESS;
 }
 
+ErrorCode app_state_menu_fan()
+{
+	if(app_state.current_input.rotenc_delta > 0)
+		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index + 1, 1), 0);
+	else if(app_state.current_input.rotenc_delta < 0)
+		app_state.selected_menu_item_index = imax8(imin8(app_state.selected_menu_item_index - 1, 1), 0);
+	// display selected menu item
+	srd_clear();
+	mr_fan_menu(app_state.selected_menu_item_index);
+	srd_display();
+	
+	// state change
+	if(app_state.current_input.button_presses & (1 << BUTTON0))
+	{
+		switch(app_state.selected_menu_item_index)
+		{
+			case 0:	// back to main menu
+				app_state.selected_menu_item_index = 3;
+				app_state.current_state_func = app_state_menu_main;
+				break;
+			case 1: // heater duty cycle
+				app_state.selected_menu_item_index = 0;
+				app_state.current_state_func = app_state_menu_fan_duty_cycle;
+				break;
+		}
+	}
+	return EC_SUCCESS;
+}
+
+ErrorCode app_state_menu_fan_duty_cycle()
+{
+	if(app_state.current_input.rotenc_delta != 0)
+	{
+		app_state.fan_duty_cycle = (uint8_t)imax16(imin16((int16_t)app_state.fan_duty_cycle + app_state.current_input.rotenc_delta * STIRRER_DC_CHANGE_PER_STEP, 100), 0);
+		app_state.settings.fan_duty_cycle = app_state.fan_duty_cycle;
+		
+		if(!app_state.fan_onoff && app_state.fan_duty_cycle > 0) // fan was switched on
+		{
+			fan_on();
+		}
+		else if(app_state.fan_onoff && (app_state.fan_duty_cycle == 0)) // fan was switched off
+		{
+			fan_off();
+		}
+		
+		app_state.fan_onoff = app_state.fan_duty_cycle > 0;
+		
+		// set fan duty cycle
+		fan_set_duty_cycle(app_state.fan_duty_cycle);
+	}
+	
+	// display current value
+	srd_clear();
+	mr_fan_menu_dc(app_state.fan_duty_cycle);
+	srd_display();
+	
+	if(app_state.current_input.button_presses & (1 << BUTTON0))
+	{
+		app_state.selected_menu_item_index = 1;
+		app_state.current_state_func = app_state_menu_fan;
+	}
+	return EC_SUCCESS;
+}
+
 ErrorCode app_state_menu_tprobe()
 {
 	if(app_state.current_input.rotenc_delta > 0)
@@ -918,7 +993,7 @@ ErrorCode app_state_menu_tprobe()
 		switch(app_state.selected_menu_item_index)
 		{
 			case 0:	// back to main menu
-				app_state.selected_menu_item_index = 3;
+				app_state.selected_menu_item_index = 4;
 				app_state.current_state_func = app_state_menu_main;
 				break;
 			case 1: // thermistor 0 resistance
@@ -1080,6 +1155,7 @@ void app_load_default_settings()
 	app_state.settings.heater_pid_offset = SETTINGS_DEFAULT_HEATER_PID_OFFSET;
 	app_state.settings.heater_pid_d_smoothing_factor = SETTINGS_DEFAULT_HEATER_PID_D_SMOOTHING_FACTOR;
 	app_state.settings.controlling_tprobe = SETTINGS_DEFAULT_CONTROLLING_TPROBE;
+	app_state.settings.fan_duty_cycle = SETTINGS_DEFAULT_FAN_DUTY_CYCLE;
 }
 
 void app_load_settings_from_eeprom()

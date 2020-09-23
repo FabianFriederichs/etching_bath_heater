@@ -47,7 +47,7 @@ C_SRCS +=  \
 ../rotary_encoder.c \
 ../shiftreg.c \
 ../srdisplay.c \
-../stirrer.c \
+../stirrer_fan.c \
 ../switch.c \
 ../temp_sensors.c
 
@@ -69,7 +69,7 @@ PID.o \
 rotary_encoder.o \
 shiftreg.o \
 srdisplay.o \
-stirrer.o \
+stirrer_fan.o \
 switch.o \
 temp_sensors.o
 
@@ -84,7 +84,7 @@ PID.o \
 rotary_encoder.o \
 shiftreg.o \
 srdisplay.o \
-stirrer.o \
+stirrer_fan.o \
 switch.o \
 temp_sensors.o
 
@@ -99,7 +99,7 @@ PID.d \
 rotary_encoder.d \
 shiftreg.d \
 srdisplay.d \
-stirrer.d \
+stirrer_fan.d \
 switch.d \
 temp_sensors.d
 
@@ -114,7 +114,7 @@ PID.d \
 rotary_encoder.d \
 shiftreg.d \
 srdisplay.d \
-stirrer.d \
+stirrer_fan.d \
 switch.d \
 temp_sensors.d
 
@@ -202,7 +202,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-./stirrer.o: .././stirrer.c
+./stirrer_fan.o: .././stirrer_fan.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega644pa -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega644pa" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

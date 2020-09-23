@@ -34,6 +34,7 @@ void mr_main(float current_temp, uint8_t tprobe_index);
 void mr_main_menu(uint8_t item_index);
 void mr_heater_menu(uint8_t item_index);
 void mr_stirrer_menu(uint8_t item_index);
+void mr_fan_menu(uint8_t item_index);
 void mr_heater_menu_pid(uint8_t item_index);
 
 void mr_heater_menu_onoff(uint8_t onoff);
@@ -47,6 +48,7 @@ void mr_heater_menu_pid_offset(float offset);
 void mr_heater_menu_pid_dsmooth(float dsmooth);
 
 void mr_stirrer_menu_dc(uint8_t dutycycle);
+void mr_fan_menu_dc(uint8_t dutycycle);
 
 void mr_tprobe_menu(uint8_t menu_index);
 void mr_tprobe_calib_menu(float resistance);

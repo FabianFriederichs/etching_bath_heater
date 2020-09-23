@@ -22,7 +22,7 @@ shiftreg.c
 
 srdisplay.c
 
-stirrer.c
+stirrer_fan.c
 
 switch.c
 
