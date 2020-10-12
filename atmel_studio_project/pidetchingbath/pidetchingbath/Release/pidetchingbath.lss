@@ -1447,8 +1447,8 @@ Disassembly of section .text:
      ec0:	0e 94 1e 1c 	call	0x383c	; 0x383c <__subsf3>
      ec4:	20 e0       	ldi	r18, 0x00	; 0
      ec6:	30 e0       	ldi	r19, 0x00	; 0
-     ec8:	40 ea       	ldi	r20, 0xA0	; 160
-     eca:	50 e4       	ldi	r21, 0x40	; 64
+     ec8:	40 e8       	ldi	r20, 0x80	; 128
+     eca:	5f e3       	ldi	r21, 0x3F	; 63
      ecc:	0e 94 8b 1c 	call	0x3916	; 0x3916 <__cmpsf2>
      ed0:	87 ff       	sbrs	r24, 7
      ed2:	b0 cf       	rjmp	.-160    	; 0xe34 <app_control+0xb2>
@@ -1484,8 +1484,8 @@ Disassembly of section .text:
      f36:	0e 94 1e 1c 	call	0x383c	; 0x383c <__subsf3>
      f3a:	20 e0       	ldi	r18, 0x00	; 0
      f3c:	30 e0       	ldi	r19, 0x00	; 0
-     f3e:	40 ea       	ldi	r20, 0xA0	; 160
-     f40:	50 e4       	ldi	r21, 0x40	; 64
+     f3e:	40 e8       	ldi	r20, 0x80	; 128
+     f40:	5f e3       	ldi	r21, 0x3F	; 63
      f42:	0e 94 74 1e 	call	0x3ce8	; 0x3ce8 <__gesf2>
      f46:	87 fd       	sbrc	r24, 7
      f48:	79 cf       	rjmp	.-270    	; 0xe3c <app_control+0xba>
@@ -3076,7 +3076,7 @@ Disassembly of section .text:
     1f7c:	e1 eb       	ldi	r30, 0xB1	; 177
     1f7e:	f0 e0       	ldi	r31, 0x00	; 0
     1f80:	80 81       	ld	r24, Z
-    1f82:	89 7f       	andi	r24, 0xF9	; 249
+    1f82:	88 7f       	andi	r24, 0xF8	; 248
     1f84:	80 83       	st	Z, r24
     1f86:	e0 eb       	ldi	r30, 0xB0	; 176
     1f88:	f0 e0       	ldi	r31, 0x00	; 0
@@ -3093,7 +3093,7 @@ Disassembly of section .text:
     1f9e:	e1 eb       	ldi	r30, 0xB1	; 177
     1fa0:	f0 e0       	ldi	r31, 0x00	; 0
     1fa2:	80 81       	ld	r24, Z
-    1fa4:	89 7f       	andi	r24, 0xF9	; 249
+    1fa4:	88 7f       	andi	r24, 0xF8	; 248
     1fa6:	80 83       	st	Z, r24
     1fa8:	10 92 b2 00 	sts	0x00B2, r1	; 0x8000b2 <__TEXT_REGION_LENGTH__+0x7e00b2>
     1fac:	10 92 b3 00 	sts	0x00B3, r1	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7e00b3>
@@ -3132,7 +3132,7 @@ Disassembly of section .text:
     1ff4:	e1 eb       	ldi	r30, 0xB1	; 177
     1ff6:	f0 e0       	ldi	r31, 0x00	; 0
     1ff8:	80 81       	ld	r24, Z
-    1ffa:	86 60       	ori	r24, 0x06	; 6
+    1ffa:	87 60       	ori	r24, 0x07	; 7
     1ffc:	80 83       	st	Z, r24
     1ffe:	08 95       	ret
 
@@ -3145,7 +3145,7 @@ Disassembly of section .text:
     200a:	e1 eb       	ldi	r30, 0xB1	; 177
     200c:	f0 e0       	ldi	r31, 0x00	; 0
     200e:	80 81       	ld	r24, Z
-    2010:	89 7f       	andi	r24, 0xF9	; 249
+    2010:	88 7f       	andi	r24, 0xF8	; 248
     2012:	80 83       	st	Z, r24
     2014:	10 92 b2 00 	sts	0x00B2, r1	; 0x8000b2 <__TEXT_REGION_LENGTH__+0x7e00b2>
     2018:	08 95       	ret

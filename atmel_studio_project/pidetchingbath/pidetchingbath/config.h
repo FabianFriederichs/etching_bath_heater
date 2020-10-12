@@ -85,7 +85,7 @@ SOFTWARE.
 
 // -------------------- heater --------------------------------------------------------------------------
 // 256 gives ~60hz PWM frequency
-#define HEATER_PWM_PRESCALE 256 // must be one out of {1, 8, 32, 64, 128, 256, 1024}
+#define HEATER_PWM_PRESCALE 1024 // must be one out of {1, 8, 32, 64, 128, 256, 1024}
 #define HEATER_CONTROL_MIN 0 // maximum duty cycle
 #define HEATER_CONTROL_MAX 100 // minimum duty cycle
 
@@ -98,13 +98,13 @@ SOFTWARE.
 
 // if heater is operating at full duty cycle, some temperature change is expected after some time interval.
 // if the temperature change after that time interval is smaller than the expected change, THERMAL_RUNAWAY_ERROR is triggered.
-#define HEATER_PROBE0_TR_PROTECTION_EXPECTED_TEMP_CHANGE 5.0 // expected temp change for probe 0
+#define HEATER_PROBE0_TR_PROTECTION_EXPECTED_TEMP_CHANGE 1.0 // expected temp change for probe 0
 #define HEATER_PROBE1_TR_PROTECTION_EXPECTED_TEMP_CHANGE 1.0 // expected temp change for probe 1
 //#define HEATER_PROBE2_EXPECTED_TEMP_CHANGE 1.0 //
 //#define HEATER_PROBE3_EXPECTED_TEMP_CHANGE 1.0 //
 
 // time intervals for thermal runway protection (time in seconds)
-#define HEATER_PROBE0_TR_PROTECTION_INTERVAL 60 // at full heater dc, the heater mat thermistor should read at least 5 degrees temp change within 60 seconds
+#define HEATER_PROBE0_TR_PROTECTION_INTERVAL 60 // at full heater dc, the heater mat thermistor should read at least 1 degrees temp change within 60 seconds
 #define HEATER_PROBE1_TR_PROTECTION_INTERVAL (5 * 60) // at full heater dc, the bath thermistor should read at least 1 degrees temp change within 5 minutes
 //#define HEATER_PROBE2_TR_PROTECTION_INTERVAL 20
 //#define HEATER_PROBE3_TR_PROTECTION_INTERVAL 20
